@@ -24,13 +24,13 @@ class unZipper {
     public function findZips()
     {
         $files = scandir($this->dir);
-        
+
         foreach ($files as $file) {
             if ($this->checkExtention($file)) {
                 $this->zips[] = $file;
             }
         }
-                
+
         if (! $this->message) {
             if ($count = count($this->zips)) {
                 $this->message = 'Found <strong>' . $count . ' zip</strong> ' . ($count == 1 ? 'file' : 'files') . ' in this directory.';
@@ -210,22 +210,22 @@ function safe($text) {
 
     <section id="body">
         <div class="container">
-        
-            <div class="notification-box">            
-                <?php if ($unZipper->getMessage()): ?>                
+
+            <div class="notification-box">
+                <?php if ($unZipper->getMessage()): ?>
                     <div class="notification alert alert-dismissible fade show alert-<?=safe($unZipper->getStatus())?>">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <?=$unZipper->getMessage()?>
                     </div>
-                <?php endif ?>                
+                <?php endif ?>
             </div>
-                
+
             <form class="form-unzip" method="POST" action="unzipper.php">
                 <input type="hidden" name="token" value="<?=$unZipper->getToken()?>" />
                 <input type="hidden" name="zipfile" value="" />
                 <input type="hidden" name="delfile" value="" />
 
-                
+
                 <?php if ($unZipper->getZips()): ?>
                     <div class="form-control mb-3 d-flex justify-content-around align-items-center">
 
@@ -256,22 +256,22 @@ function safe($text) {
 
                     <ul class="list-group">
                         <?php foreach ($unZipper->getZips() as $key => $zip): ?>
-                            <li class="list-group-item">                                
-                                <input type="hidden" name="zipfiles[<?=$key?>]" value="<?=safe($zip)?>" />
-                                <button type="submit" class="btn-unzip btn btn-warning float-right mb-0">
-                                    <i class="fas fa-cubes mr-1"></i>
-                                    Unzip It
-                                </button>
-                                <input type="hidden" name="delfiles[<?=$key?>]" value="<?=safe($zip)?>" />
-                                <button type="submit" class="btn-delete btn btn-outline-danger float-right mb-0 mr-5">
-                                    <i class="fas fa-cubes mr-1"></i>
-                                    Delete It
-                                </button>
-                                <h3>
+                            <li class="list-group-item clearfix">
+                                <h3 class="text-nowrap float-left">
                                     <a href="<?=$zip?>" title="Download <?=safe($zip)?>">
                                         <i class="fas fa-file-archive mr-1"></i> <?=$zip?>
                                     </a>
                                 </h3>
+                                <input type="hidden" name="zipfiles[<?=$key?>]" value="<?=safe($zip)?>" />
+                                <button type="submit" class="btn-unzip btn-modal btn btn-warning float-right mb-0" data-modal-body="All unzipped files will be overwritten if already exists.">
+                                    <i class="fas fa-cubes mr-1"></i>
+                                    Unzip It
+                                </button>
+                                <input type="hidden" name="delfiles[<?=$key?>]" value="<?=safe($zip)?>" />
+                                <button type="submit" class="btn-delete btn-modal btn btn-outline-danger float-right mb-0 mr-3" data-modal-body="File will be deleted permanently.">
+                                    <i class="fas fa-cubes mr-1"></i>
+                                    Delete It
+                                </button>
                             </li>
                         <?php endforeach ?>
                     </ul>
@@ -279,7 +279,7 @@ function safe($text) {
 
                 <div class="reminder-box mt-3 text-center">
                     <input type="hidden" name="delfiles[]" value="unzipexec.php" />
-                    <button type="button" class="btn-delete btn btn-outline-warning">Remember to delete this file when you done.</button>
+                    <button type="button" class="btn-delete btn-modal btn btn-outline-warning" data-modal-body="File will be deleted permanently.">Remember to delete this file when you are done.</button>
                 </div>
 
             </form>
@@ -297,10 +297,10 @@ function safe($text) {
                     </button>
                 </div>
                 <div class="modal-body">
-                    All files will be overwritten if already exists.
+                    Confirm your action.
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary form-confirm">Yes, unzip it</button>
+                    <button type="button" class="btn btn-primary form-confirm">Yes, proceed</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
                 </div>
             </div>
@@ -328,7 +328,27 @@ function safe($text) {
             $('.form-unzip').submit();
         });
 
-        // Confirm unzip
+        // Set delfile name
+        $('.btn-delete').on('click', function (e) {
+            e.preventDefault();
+            let delfile = $(this).prev().val();
+            $('input[name=delfile]').val(delfile);
+            $('.form-unzip').submit();
+        });
+
+        // Set modal data
+        $('.btn-modal').on('click', function (e) {
+            let title = $(this).data('modal-title');
+            if (title) {
+                $('.modal-title').html(title);
+            }
+            let body = $(this).data('modal-body');
+            if (body) {
+                $('.modal-body').html(body);
+            }
+        });
+
+        // Form submit confirm with modal dialog
         $('.form-unzip').submit(function(e){
             if ($(this).hasClass('confirmed')) {
                 return true;
@@ -341,14 +361,6 @@ function safe($text) {
             $('.form-unzip').addClass('confirmed');
             $('.form-unzip').submit();
         })
-
-        // Set delfile name
-        $('.btn-delete').on('click', function (e) {
-            e.preventDefault();
-            let delfile = $(this).prev().val();
-            $('input[name=delfile]').val(delfile);
-            $('.form-unzip').submit();
-        });
 
         // Notification auto close
         let delay = 5000; // 5 s
