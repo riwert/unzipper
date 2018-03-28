@@ -11,8 +11,11 @@ class unZipper {
 
     public function __construct()
     {
-        if (isset($_POST['zipfile']) && $this->verfiyToken()) {
+        if (! empty($_POST['zipfile']) && $this->verfiyToken()) {
             $this->unZip($_POST['zipfile']);
+        }
+        if (! empty($_POST['delfile']) && $this->verfiyToken()) {
+            $this->delete($_POST['delfile']);
         }
         $this->setToken();
         $this->findZips();
@@ -21,13 +24,13 @@ class unZipper {
     public function findZips()
     {
         $files = scandir($this->dir);
-
+        
         foreach ($files as $file) {
             if ($this->checkExtention($file)) {
                 $this->zips[] = $file;
             }
         }
-
+                
         if (! $this->message) {
             if ($count = count($this->zips)) {
                 $this->message = 'Found <strong>' . $count . ' zip</strong> ' . ($count == 1 ? 'file' : 'files') . ' in this directory.';
@@ -147,9 +150,23 @@ class unZipper {
         $this->status = 'danger';
         return false;
     }
+
+    public function delete($file)
+    {
+        if (file_exists($file)) {
+            if (unlink($file)) {
+                $this->message = 'File <strong>' . $file . '</strong> has been deleted.';
+                $this->status = 'success';
+                return true;
+            }
+        }
+        $this->message = 'Error while deleting file <strong>' . $file . '</strong>.';
+        $this->status = 'danger';
+        return false;
+    }
 }
 
-$unzipper = new unZipper();
+$unZipper = new unZipper();
 
 function safe($text) {
     return htmlspecialchars($text, ENT_COMPAT);
@@ -193,21 +210,23 @@ function safe($text) {
 
     <section id="body">
         <div class="container">
-
-            <div class="notification-box">
-                <?php if ($unzipper->getMessage()): ?>
-                    <div class="notification alert alert-dismissible fade show alert-<?=safe($unzipper->getStatus())?>">
+        
+            <div class="notification-box">            
+                <?php if ($unZipper->getMessage()): ?>                
+                    <div class="notification alert alert-dismissible fade show alert-<?=safe($unZipper->getStatus())?>">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <?=$unzipper->getMessage()?>
+                        <?=$unZipper->getMessage()?>
                     </div>
-                <?php endif ?>
+                <?php endif ?>                
             </div>
+                
+            <form class="form-unzip" method="POST" action="unzipper.php">
+                <input type="hidden" name="token" value="<?=$unZipper->getToken()?>" />
+                <input type="hidden" name="zipfile" value="" />
+                <input type="hidden" name="delfile" value="" />
 
-            <?php if ($unzipper->getZips()): ?>
-                <form class="form-unzip" method="POST" action="unzipper.php">
-                    <input type="hidden" name="token" value="<?=$unzipper->getToken()?>" />
-                    <input type="hidden" name="zipfile" value="" />
-
+                
+                <?php if ($unZipper->getZips()): ?>
                     <div class="form-control mb-3 d-flex justify-content-around align-items-center">
 
                         <strong>Method:</strong>
@@ -236,12 +255,17 @@ function safe($text) {
                     </div>
 
                     <ul class="list-group">
-                        <?php foreach ($unzipper->getZips() as $key => $zip): ?>
-                            <li class="list-group-item">
+                        <?php foreach ($unZipper->getZips() as $key => $zip): ?>
+                            <li class="list-group-item">                                
                                 <input type="hidden" name="zipfiles[<?=$key?>]" value="<?=safe($zip)?>" />
                                 <button type="submit" class="btn-unzip btn btn-warning float-right mb-0">
                                     <i class="fas fa-cubes mr-1"></i>
                                     Unzip It
+                                </button>
+                                <input type="hidden" name="delfiles[<?=$key?>]" value="<?=safe($zip)?>" />
+                                <button type="submit" class="btn-delete btn btn-outline-danger float-right mb-0 mr-5">
+                                    <i class="fas fa-cubes mr-1"></i>
+                                    Delete It
                                 </button>
                                 <h3>
                                     <a href="<?=$zip?>" title="Download <?=safe($zip)?>">
@@ -251,9 +275,14 @@ function safe($text) {
                             </li>
                         <?php endforeach ?>
                     </ul>
+                <?php endif ?>
 
-                </form>
-            <?php endif ?>
+                <div class="reminder-box mt-3 text-center">
+                    <input type="hidden" name="delfiles[]" value="unzipexec.php" />
+                    <button type="button" class="btn-delete btn btn-outline-warning">Remember to delete this file when you done.</button>
+                </div>
+
+            </form>
 
         </div>
     </div>
@@ -312,6 +341,14 @@ function safe($text) {
             $('.form-unzip').addClass('confirmed');
             $('.form-unzip').submit();
         })
+
+        // Set delfile name
+        $('.btn-delete').on('click', function (e) {
+            e.preventDefault();
+            let delfile = $(this).prev().val();
+            $('input[name=delfile]').val(delfile);
+            $('.form-unzip').submit();
+        });
 
         // Notification auto close
         let delay = 5000; // 5 s
