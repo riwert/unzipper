@@ -1,5 +1,17 @@
-# unZipper
-One file server side simple unzipper.
+# unZipper PHP
+One file server side simple unzipper. Unzip zip files directly on server hosting.
+
+## Features:
+- Single file script.
+- Simple and intuitive.
+- Few methods of unzip.
+- Includes Bootstrap 4 UI.
+- Includes FontAwesome 5 icons.
+- Prevents redo action after refresh.
+- Limited actions of unzip and delete:
+    - only zip files may be unziped,
+    - only zip files and script itself may be deleted,
+    - all actions require confirmation.
 
 ## Usage:
 Upload `unzipper.php` file to your directory with zip file(s) on the server and use it in your browser:
