@@ -8,6 +8,7 @@ class unZipper {
     private $message;
     private $status;
     private $token;
+    private $output;
 
     public function __construct()
     {
@@ -68,6 +69,11 @@ class unZipper {
         return $this->status;
     }
 
+    public function getOutput()
+    {
+        return $this->output;
+    }
+
     public function unZip($zip)
     {
         if ($this->checkExtention($zip)) {
@@ -102,7 +108,8 @@ class unZipper {
 
     public function execUnzip($file)
     {
-        if (exec('unzip -o ' . $file)) {
+        if (exec('unzip -o ' . $file, $output)) {
+            $this->output = implode('<br>', $output);
             return true;
         }
         return false;
@@ -110,7 +117,12 @@ class unZipper {
 
     public function systemUnzip($file)
     {
-        if (system('unzip -o ' . $file)) {
+        ob_start();
+        system("unzip -o {$file}");
+        $this->output = nl2br(ob_get_contents());
+        ob_end_clean();
+
+        if ($this->output) {
             return true;
         }
         return false;
@@ -153,7 +165,7 @@ class unZipper {
 
     public function delete($file)
     {
-        if (file_exists($file)) {
+        if ($this->checkExtention($file) || $file == basename(__FILE__)) {
             if (unlink($file)) {
                 $this->message = 'File <strong>' . $file . '</strong> has been deleted.';
                 $this->status = 'success';
@@ -194,6 +206,10 @@ function safe($text) {
             top: 1rem;
             right: 1rem;
         }
+        .output {
+            max-height: 10rem;
+            overflow: auto;
+        }
     </style>
 </head>
 <body>
@@ -224,7 +240,6 @@ function safe($text) {
                 <input type="hidden" name="token" value="<?=$unZipper->getToken()?>" />
                 <input type="hidden" name="zipfile" value="" />
                 <input type="hidden" name="delfile" value="" />
-
 
                 <?php if ($unZipper->getZips()): ?>
                     <div class="form-control mb-3 d-flex justify-content-around align-items-center">
@@ -263,13 +278,13 @@ function safe($text) {
                                     </a>
                                 </h3>
                                 <input type="hidden" name="zipfiles[<?=$key?>]" value="<?=safe($zip)?>" />
-                                <button type="submit" class="btn-unzip btn-modal btn btn-warning float-right mb-0" data-modal-body="All unzipped files will be overwritten if already exists.">
+                                <button type="submit" class="btn-unzip btn-modal btn btn-warning float-right mb-0" title="Unzip It" data-modal-body="All unzipped files will be overwritten if already exists.">
                                     <i class="fas fa-cubes mr-1"></i>
                                     Unzip It
                                 </button>
                                 <input type="hidden" name="delfiles[<?=$key?>]" value="<?=safe($zip)?>" />
-                                <button type="submit" class="btn-delete btn-modal btn btn-outline-danger float-right mb-0 mr-3" data-modal-body="File will be deleted permanently.">
-                                    <i class="fas fa-cubes mr-1"></i>
+                                <button type="submit" class="btn-delete btn-modal btn btn-outline-danger float-right mb-0 mr-3" title="Delete It" data-modal-body="File will be deleted permanently.">
+                                    <i class="fas fa-trash-alt mr-1"></i>
                                     Delete It
                                 </button>
                             </li>
@@ -277,9 +292,21 @@ function safe($text) {
                     </ul>
                 <?php endif ?>
 
+                <div class="output-box">
+                    <?php if ($unZipper->getOutput()): ?>
+                        <div class="output alert alert-dismissible fade show alert-warning mt-3">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <?=$unZipper->getOutput()?>
+                        </div>
+                    <?php endif ?>
+                </div>
+
                 <div class="reminder-box mt-3 text-center">
-                    <input type="hidden" name="delfiles[]" value="unzipexec.php" />
-                    <button type="button" class="btn-delete btn-modal btn btn-outline-warning" data-modal-body="File will be deleted permanently.">Remember to delete this file when you are done.</button>
+                    <input type="hidden" name="delfiles[]" value="unzipper.php" />
+                    <button type="button" class="btn-delete btn-modal btn btn-outline-warning" title="Delete It" data-modal-body="This script file will be deleted permanently.">
+                        <i class="fas fa-exclamation-circle mr-1"></i>
+                        Remember to delete this script file when you are done.
+                    </button>
                 </div>
 
             </form>
