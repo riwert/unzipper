@@ -1,6 +1,13 @@
 <?php
 session_start();
-
+/**
+ * unZipper
+ * 
+ * Unzip zip files. One file server side simple unzipper with UI.
+ * 
+ * @author Robert Wierzchowski <revert@revert.pl>
+ * @version 1.0.0
+ */
 class unZipper {
 
     private $dir = './';
