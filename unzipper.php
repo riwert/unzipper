@@ -27,6 +27,7 @@ class UnZipper
         }
         $this->setToken();
         $this->findZips();
+        $this->countZips();
     }
 
     private function findZips()
@@ -37,18 +38,23 @@ class UnZipper
             if ($this->checkExtention($file)) {
                 $this->zips[] = $file;
             }
-        }
+        }        
+    }
 
-        if (! $this->message) {
-            $count = count($this->zips);
-            if ($count) {
-                $file = ($count == 1) ? 'file' : 'files';
-                $this->message = 'Found <strong>' . $count . ' zip ' . $file . '</strong> in this directory.';
-                $this->status = 'info';
-            } else {
-                $this->message = 'There is no zip file in this directory.';
-                $this->status = 'warning';
-            }
+    private function countZips()
+    {
+        if ($this->message) {
+            return false;
+        }
+        
+        $count = count($this->zips);
+        if ($count) {
+            $file = ($count == 1) ? 'file' : 'files';
+            $this->message = 'Found <strong>' . $count . ' zip ' . $file . '</strong> in this directory.';
+            $this->status = 'info';
+        } else {
+            $this->message = 'There is no zip file in this directory.';
+            $this->status = 'warning';
         }
     }
 
