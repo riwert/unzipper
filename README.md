@@ -1,4 +1,4 @@
-# unZipper
+# UnZipper
 Unzip zip files. One file server side simple unzipper with UI.
 
 ## Features:
