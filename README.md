@@ -1,11 +1,14 @@
 # UnZipper
-Unzip zip files. One file server side simple unzipper with UI.
+Unzip zip files. One file server side simple unzipper with intuitive UI.
+
+## Screenshot:
+[![UnZipper](screenshot.png)](screenshot.png)
 
 ## Features:
 - Single file script.
 - Simple and intuitive.
 - Few methods of unzip.
-- Includes Bootstrap 4 UI.
+- Includes Bootstrap 4 toolkit.
 - Includes FontAwesome 5 icons.
 - Prevents redo action after refresh.
 - Limited actions of unzip and delete:
