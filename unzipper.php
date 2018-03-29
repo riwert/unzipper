@@ -1,15 +1,15 @@
 <?php
 session_start();
 /**
- * unZipper
- * 
+ * UnZipper
+ *
  * Unzip zip files. One file server side simple unzipper with UI.
- * 
+ *
  * @author Robert Wierzchowski <revert@revert.pl>
  * @version 1.0.0
  */
-class unZipper {
-
+class UnZipper
+{
     private $dir = './';
     private $zips = [];
     private $message;
@@ -185,9 +185,10 @@ class unZipper {
     }
 }
 
-$unZipper = new unZipper();
+$unZipper = new UnZipper();
 
-function safe($text) {
+function safe($text)
+{
     return htmlspecialchars($text, ENT_COMPAT);
 }
 
@@ -197,7 +198,7 @@ function safe($text) {
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>unZipper</title>
+    <title>UnZipper</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="https://bootswatch.com/4/lumen/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
@@ -225,7 +226,7 @@ function safe($text) {
             <h1 class="page-title text-center my-3">
                 <a href="unzipper.php" title="unZipper">
                     <i class="fas fa-cube mr-1"></i>
-                    unZipper
+                    UnZipper
                 </a>
             </h1>
         </div>
