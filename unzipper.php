@@ -306,11 +306,11 @@ function safe($text)
                     <ul class="list-group">
                         <?php foreach ($unZipper->getZips() as $key => $zip): ?>
                             <li class="list-group-item clearfix">
-                                <h3 class="text-nowrap float-left">
+                                <h2 class="text-nowrap float-left mb-0">
                                     <a href="<?=$zip?>" title="Download <?=safe($zip)?>">
                                         <i class="fas fa-file-archive mr-1"></i> <?=$zip?>
                                     </a>
-                                </h3>
+                                </h2>
                                 <input type="hidden" name="zipfiles[<?=$key?>]" value="<?=safe($zip)?>" />
                                 <button type="submit" class="btn-unzip btn-modal btn btn-warning float-right mb-0" title="Unzip It" data-modal-body="All unzipped files will be overwritten if already exists.">
                                     <i class="fas fa-cubes mr-1"></i>
