@@ -6,7 +6,7 @@ session_start();
  * Unzip zip files. One file server side simple unzipper with UI.
  *
  * @author Robert Wierzchowski <revert@revert.pl>
- * @version 1.0.0
+ * @version 1.0.1
  */
 class UnZipper
 {
@@ -29,7 +29,7 @@ class UnZipper
         $this->findZips();
     }
 
-    public function findZips()
+    private function findZips()
     {
         $files = scandir($this->dir);
 
@@ -40,25 +40,147 @@ class UnZipper
         }
 
         if (! $this->message) {
-            if ($count = count($this->zips)) {
-                $this->message = 'Found <strong>' . $count . ' zip</strong> ' . ($count == 1 ? 'file' : 'files') . ' in this directory.';
+            $count = count($this->zips);
+            if ($count) {
+                $file = ($count == 1) ? 'file' : 'files';
+                $this->message = 'Found <strong>' . $count . ' zip ' . $file . '</strong> in this directory.';
                 $this->status = 'info';
             } else {
-                $this->message = 'There is no zip files in this directory.';
+                $this->message = 'There is no zip file in this directory.';
                 $this->status = 'warning';
             }
         }
     }
 
-    public function checkExtention($file)
+    private function checkExtention($file)
     {
-        if (file_exists($file)) {
-            $extension = pathinfo($file, PATHINFO_EXTENSION);
-            if ($extension == 'zip') {
-                return true;
-            }
+        if (! file_exists($file)) {
+            return false;
         }
-        return false;
+
+        $extension = pathinfo($file, PATHINFO_EXTENSION);
+        if ($extension != 'zip') {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function unZip($zip)
+    {
+        if (! $this->checkExtention($zip)) {
+            $this->message = 'This <strong>' . $zip . '</strong> is not a zip file.';
+            $this->status = 'danger';
+            return false;
+        }
+
+        $method = $_POST['method'];
+
+        switch ($method) {
+            case 'execUnzip':
+                $unzipResult = $this->execUnzip($zip);
+                break;
+            case 'systemUnzip':
+                $unzipResult = $this->systemUnzip($zip);
+                break;
+            default:
+                $unzipResult = $this->unZipArchive($zip);
+        }
+
+        if (! $unzipResult) {
+            $this->message = 'Error while unzipping file <strong>' . $zip . '</strong>.';
+            $this->status = 'danger';
+            return false;
+        }
+
+        $this->message = 'File <strong>' . $zip . '</strong> has been unziped.';
+        $this->status = 'success';
+
+        return true;
+    }
+
+    private function unZipArchive($file)
+    {
+        $path = pathinfo(realpath($file), PATHINFO_DIRNAME);
+        $zip = new ZipArchive;
+        if ($zip->open($file) !== true) {
+            return false;
+        }
+        $zip->extractTo($path);
+        $zip->close();
+
+        return true;
+    }
+
+    private function execUnzip($file)
+    {
+        if (! exec('unzip -o ' . $file, $output)) {
+            return false;
+        }
+
+        $this->output = implode('<br>', $output);
+
+        return true;
+    }
+
+    private function systemUnzip($file)
+    {
+        ob_start();
+            if (! system("unzip -o {$file}")) {
+                return false;
+            }
+            $this->output = nl2br(ob_get_contents());
+        ob_end_clean();
+
+        return true;
+    }
+
+    private function delete($file)
+    {
+        if (! $this->checkExtention($file) && $file != basename(__FILE__)) {
+            $this->message = 'This file <strong>' . $file . '</strong> cannot be deleted.';
+            $this->status = 'danger';
+            return false;
+        }
+
+        if (! unlink($file)) {
+            $this->message = 'Error while deleting file <strong>' . $file . '</strong>.';
+            $this->status = 'danger';
+            return false;
+        }
+
+        $this->message = 'File <strong>' . $file . '</strong> has been deleted.';
+        $this->status = 'success';
+
+        return true;
+    }
+
+    private function verfiyToken()
+    {
+        if (empty($_POST['token'])) {
+            $this->message = 'Missing token.';
+            $this->status = 'danger';
+            return false;
+        }
+
+        if (! hash_equals($_SESSION['token'], $_POST['token'])) {
+            $this->message = 'Invalid token.';
+            $this->status = 'danger';
+            return false;
+        }
+
+        return true;
+    }
+
+    private function setToken()
+    {
+        $_SESSION['token'] = bin2hex(random_bytes(32));
+        $this->token = $_SESSION['token'];
+    }
+
+    public function getToken()
+    {
+        return $this->token;
     }
 
     public function getZips()
@@ -79,108 +201,6 @@ class UnZipper
     public function getOutput()
     {
         return $this->output;
-    }
-
-    public function unZip($zip)
-    {
-        if ($this->checkExtention($zip)) {
-            $method = $_POST['method'];
-
-            switch ($method) {
-                case 'execUnzip':
-                    $unzipResult = $this->execUnzip($zip);
-                    break;
-                case 'systemUnzip':
-                    $unzipResult = $this->systemUnzip($zip);
-                    break;
-                default:
-                    $unzipResult = $this->unZipArchive($zip);
-            }
-
-            if ($unzipResult) {
-                $this->message = 'File <strong>' . $zip . '</strong> has been unziped.';
-                $this->status = 'success';
-                return true;
-            } else {
-                $this->message = 'Error while unzipping file <strong>' . $zip . '</strong>.';
-                $this->status = 'danger';
-            }
-        } else {
-            $this->message = 'This <strong>' . $zip . '</strong> is not a zip file.';
-            $this->status = 'danger';
-        }
-        return false;
-    }
-
-    public function execUnzip($file)
-    {
-        if (exec('unzip -o ' . $file, $output)) {
-            $this->output = implode('<br>', $output);
-            return true;
-        }
-        return false;
-    }
-
-    public function systemUnzip($file)
-    {
-        ob_start();
-        system("unzip -o {$file}");
-        $this->output = nl2br(ob_get_contents());
-        ob_end_clean();
-
-        if ($this->output) {
-            return true;
-        }
-        return false;
-    }
-
-    public function unZipArchive($file)
-    {
-        $path = pathinfo(realpath($file), PATHINFO_DIRNAME);
-        $zip = new ZipArchive;
-        if ($zip->open($file) === true) {
-            $zip->extractTo($path);
-            $zip->close();
-            return true;
-        }
-        return false;
-    }
-
-    public function setToken()
-    {
-        $_SESSION['token'] = bin2hex(random_bytes(32));
-        $this->token = $_SESSION['token'];
-    }
-
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    public function verfiyToken()
-    {
-        if (! empty($_POST['token'])) {
-            if (hash_equals($_SESSION['token'], $_POST['token'])) {
-                return true;
-            }
-        }
-        $this->message = 'Invalid token.';
-        $this->status = 'danger';
-        return false;
-    }
-
-    public function delete($file)
-    {
-        if ($this->checkExtention($file) || $file == basename(__FILE__)) {
-            if (unlink($file)) {
-                $this->message = 'File <strong>' . $file . '</strong> has been deleted.';
-                $this->status = 'success';
-                return true;
-            }
-        }
-        $this->message = 'Error while deleting file <strong>' . $file . '</strong>.';
-        $this->status = 'danger';
-        return false;
     }
 }
 
