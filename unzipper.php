@@ -84,10 +84,9 @@ class UnZipper
     public function unZip($zip)
     {
         if ($this->checkExtention($zip)) {
-
             $method = $_POST['method'];
 
-            switch($method) {
+            switch ($method) {
                 case 'execUnzip':
                     $unzipResult = $this->execUnzip($zip);
                     break;
@@ -139,7 +138,7 @@ class UnZipper
     {
         $path = pathinfo(realpath($file), PATHINFO_DIRNAME);
         $zip = new ZipArchive;
-        if ($zip->open($file) === TRUE) {
+        if ($zip->open($file) === true) {
             $zip->extractTo($path);
             $zip->close();
             return true;
