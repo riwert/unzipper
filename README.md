@@ -22,7 +22,7 @@ Upload `unzipper.php` file to your directory with zip file(s) on the server and 
 http://yourdomain.com/path/to/unzipper.php
 ```
 
-After you are done remember to delete `unzipper.php` script and all unnecessary zip file(s).
+After you are done remember to delete `unzipper.php` script and all unnecessary zip files.
 
 ## Download:
 [unzipper.php](https://raw.github.com/riwert/unzipper/master/unzipper.php)
