@@ -416,7 +416,7 @@ function _t($key)
     <header>
         <div class="container">
             <h1 class="page-title text-center my-3">
-                <a href="unzipper.php" title="UnZipper">
+                <a href="unzipper.php<?=((! empty($_GET['lang'])) ? '?lang=' . $_GET['lang'] : '' )?>" title="UnZipper">
                     <i class="fas fa-cube mr-1"></i>
                     UnZipper
                 </a>
@@ -436,7 +436,7 @@ function _t($key)
                 <?php endif ?>
             </div>
 
-            <form class="form-unzip" method="POST" action="unzipper.php">
+            <form class="form-unzip" method="POST" action="">
                 <input type="hidden" name="token" value="<?=$unZipper->getToken()?>" />
                 <input type="hidden" name="zipfile" value="" />
                 <input type="hidden" name="delfile" value="" />
@@ -587,7 +587,11 @@ function _t($key)
         $('.form-confirm').on('click', function (e) {
             $('.form-unzip').addClass('confirmed');
             $('.form-unzip').submit();
-        })
+        });
+        $('.modal').on('hidden.bs.modal', function (e) {
+            $('input[name=zipfile]').val('');
+            $('input[name=delfile]').val('');
+        });
 
         // Notification auto close
         let delay = 5000; // 5 s
