@@ -346,8 +346,8 @@ function _t($key)
         ],
     ];
 
-    if (! empty($_GET['lang']) && in_array($_GET['lang'], $availableLanguages)) {
-        $language = $_GET['lang'];
+    if (! empty($_GET['lang'])) {
+        $language = (in_array($_GET['lang'], $availableLanguages)) ? $_GET['lang'] : 'en';
     }
     if (empty($language)) {
         $availableLanguages = array_flip($availableLanguages);
