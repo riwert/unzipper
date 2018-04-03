@@ -263,8 +263,8 @@ function _t($key)
           'msg_remind_to_delete' => 'Remember to delete this script file when you are done.',
           'msg_are_you_sure' => 'Are you sure?',
           'msg_confirm_your_action' => 'Confirm your action.',
-          'msg_action_proceed' => 'Yes, proceed',
-          'msg_action_close' => 'No, close',
+          'msg_action_proceed' => 'Yes, proceed it',
+          'msg_action_close' => 'No, close it',
         ],
         'pl' => [
           'method' => 'metoda',
@@ -290,7 +290,7 @@ function _t($key)
           'msg_are_you_sure' => 'Jesteś pewny?',
           'msg_confirm_your_action' => 'Potwierdź swoje działanie.',
           'msg_action_proceed' => 'Tak, kontynuuj',
-          'msg_action_close' => 'Nie, blisko',
+          'msg_action_close' => 'Nie, zamknij to',
         ],
         'de' => [
           'method' => 'Methode',
@@ -315,8 +315,8 @@ function _t($key)
           'msg_remind_to_delete' => 'Denken Sie daran, diese Skriptdatei zu löschen, wenn Sie fertig sind.',
           'msg_are_you_sure' => 'Bist du sicher?',
           'msg_confirm_your_action' => 'Bestätigen Sie Ihre Aktion.',
-          'msg_action_proceed' => 'Ja, fahre fort',
-          'msg_action_close' => 'Nein, nah',
+          'msg_action_proceed' => 'Ja, mach weiter',
+          'msg_action_close' => 'Nein, schließe es',
         ],
         'es' => [
           'method' => 'Método',
@@ -341,8 +341,8 @@ function _t($key)
           'msg_remind_to_delete' => 'Recuerde eliminar este archivo de script cuando haya terminado.',
           'msg_are_you_sure' => '¿Estás seguro?',
           'msg_confirm_your_action' => 'Confirma tu acción',
-          'msg_action_proceed' => 'Sí, proceder',
-          'msg_action_close' => 'No cerrar',
+          'msg_action_proceed' => 'Sí, proceda',
+          'msg_action_close' => 'No, ciérralo',
         ],
     ];
 
