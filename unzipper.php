@@ -6,7 +6,7 @@ session_start();
  * Unzip zip files. One file server side simple unzipper with UI.
  *
  * @author Robert Wierzchowski <revert@revert.pl>
- * @version 1.0.1
+ * @version 1.1.0
  */
 class UnZipper
 {
