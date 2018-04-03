@@ -10,6 +10,7 @@ session_start();
  */
 class UnZipper
 {
+    private $title = 'UnZipper';
     private $dir = './';
     private $zips = [];
     private $message;
@@ -218,6 +219,16 @@ class UnZipper
     {
         return $this->output;
     }
+
+    public function getScriptPath()
+    {        
+        return $_SERVER['REQUEST_URI'] ;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
 }
 
 $unZipper = new UnZipper();
@@ -374,6 +385,14 @@ function _t($key)
       
     if (! empty($_GET['lang'])) {
         $language = (in_array($_GET['lang'], $availableLanguages)) ? $_GET['lang'] : 'en';
+    }    
+    if (empty($language)) {
+        $args = explode('/', $_SERVER['REQUEST_URI']);
+        $cleanArgs = array_filter($args, function ($value) { return $value !== ''; });
+        $lastArg = array_pop($cleanArgs);
+        if (in_array($lastArg, $availableLanguages)) {
+            $language = $lastArg;
+        }
     }
     if (empty($language)) {
         $availableLanguages = array_flip($availableLanguages);
@@ -415,7 +434,7 @@ function _t($key)
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>UnZipper</title>
+    <title><?=$unZipper->getTitle()?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="https://bootswatch.com/4/lumen/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
@@ -442,9 +461,9 @@ function _t($key)
     <header>
         <div class="container">
             <h1 class="page-title text-center my-3">
-                <a href="unzipper.php<?=((! empty($_GET['lang'])) ? '?lang=' . $_GET['lang'] : '' )?>" title="UnZipper">
+                <a href="<?=$unZipper->getScriptPath()?>" title="<?=_h($unZipper->getTitle())?>">
                     <i class="fas fa-cube mr-1"></i>
-                    UnZipper
+                    <?=$unZipper->getTitle()?>
                 </a>
             </h1>
         </div>
