@@ -49,11 +49,13 @@ class UnZipper
 
         $count = count($this->zips);
         if ($count) {
-            $file = ($count == 1) ? 'file' : 'files';
-            $this->message = 'Found <strong>' . $count . ' zip ' . $file . '</strong> in this directory.';
+            $zipFile = ($count == 1) ? _t('zip_file') : _t('zip_files');
+            $this->message = _t('msg_found_files', '<strong>' . $count . ' ' . $zipFile . '</strong>');
+            //'Found <strong>' . $count . ' zip ' . $file . '</strong> in this directory.';
             $this->status = 'info';
         } else {
-            $this->message = 'There is no zip file in this directory.';
+            $this->message = _t('msg_files_not_found');
+            //'There is no zip file in this directory.';
             $this->status = 'warning';
         }
     }
@@ -75,7 +77,8 @@ class UnZipper
     private function unZip($zip)
     {
         if (! $this->checkExtention($zip)) {
-            $this->message = 'This <strong>' . $zip . '</strong> is not a zip file.';
+            $this->message = _t('msg_not_zip_file', '<strong>' . $zip . '</strong>');
+            //'This <strong>' . $zip . '</strong> is not a zip file.';
             $this->status = 'danger';
             return false;
         }
@@ -94,12 +97,14 @@ class UnZipper
         }
 
         if (! $unzipResult) {
-            $this->message = 'Error while unzipping file <strong>' . $zip . '</strong>.';
+            $this->message = _t('msg_error_while_unzip', '<strong>' . $zip . '</strong>');
+            //'Error while unzipping file <strong>' . $zip . '</strong>.';
             $this->status = 'danger';
             return false;
         }
 
-        $this->message = 'File <strong>' . $zip . '</strong> has been unziped.';
+        $this->message = _t('msg_unzip_success', '<strong>' . $zip . '</strong>');
+        //'File <strong>' . $zip . '</strong> has been unziped.';
         $this->status = 'success';
 
         return true;
@@ -144,18 +149,21 @@ class UnZipper
     private function delete($file)
     {
         if (! $this->checkExtention($file) && $file != basename(__FILE__)) {
-            $this->message = 'This file <strong>' . $file . '</strong> cannot be deleted.';
+            $this->message = _t('msg_cannot_delete', '<strong>' . $file . '</strong>');
+            //'This file <strong>' . $file . '</strong> cannot be deleted.';
             $this->status = 'danger';
             return false;
         }
 
         if (! unlink($file)) {
-            $this->message = 'Error while deleting file <strong>' . $file . '</strong>.';
+            $this->message = _t('msg_error_while_delete', '<strong>' . $file . '</strong>');
+            //'Error while deleting file <strong>' . $file . '</strong>.';
             $this->status = 'danger';
             return false;
         }
 
-        $this->message = 'File <strong>' . $file . '</strong> has been deleted.';
+        $this->message = _t('msg_delete_success', '<strong>' . $file . '</strong>');
+        //'File <strong>' . $file . '</strong> has been deleted.';
         $this->status = 'success';
 
         return true;
@@ -164,13 +172,15 @@ class UnZipper
     private function verfiyToken()
     {
         if (empty($_POST['token'])) {
-            $this->message = 'Missing token.';
+            $this->message = _t('msg_missing_token');
+            //'Missing token.';
             $this->status = 'danger';
             return false;
         }
 
         if (! hash_equals($_SESSION['token'], $_POST['token'])) {
-            $this->message = 'Invalid token.';
+            $this->message = _t('msg_invalid_token');
+            //'Invalid token.';
             $this->status = 'danger';
             return false;
         }
@@ -212,119 +222,6 @@ class UnZipper
 
 $unZipper = new UnZipper();
 
-// === Translations === //
-
-$translations = array (
-'en' =>
-array (
-    'method' => 'Method',
-    'download' => 'Download',
-    'unzip_it' => 'Unzip it',
-    'delete_it' => 'Delete it',
-    'file' => 'file',
-    'files' => 'files',
-    'msg_found_files' => 'Found %s in this directory.',
-    'msg_files_not_found' => 'There is no zip file in this directory.',
-    'msg_not_zip_file' => 'This %s is not a zip file.',
-    'msg_error_while_unzip' => 'Error while unzipping file %s.',
-    'msg_unzip_success' => 'File %s has been unziped.',
-    'msg_cannot_delete' => 'This file %s cannot be deleted.',
-    'msg_error_while_delete' => 'Error while deleting file %s.',
-    'msg_delete_success' => 'File %s has been deleted.',
-    'msg_missing_token' => 'Missing token.',
-    'msg_invalid_token' => 'Invalid token.',
-    'msg_warning_files_overwrite' => 'All unzipped files will be overwritten if already exists.',
-    'msg_warning_file_delete' => 'File will be deleted permanently.',
-    'msg_warning_script_delete' => 'This script file will be deleted permanently.',
-    'msg_remind_to_delete' => 'Remember to delete this script file when you are done.',
-    'msg_are_you_sure' => 'Are you sure?',
-    'msg_confirm_your_action' => 'Confirm your action.',
-    'msg_action_proceed' => 'Yes, proceed',
-    'msg_action_close' => 'No, close',
-),
-'pl' =>
-array (
-    'method' => 'metoda',
-    'download' => 'Pobieranie',
-    'unzip_it' => 'Rozpakuj to',
-    'delete_it' => 'Usuń to',
-    'file' => 'plik',
-    'files' => 'akta',
-    'msg_found_files' => 'Znaleziono %s w tym katalogu.',
-    'msg_files_not_found' => 'W tym katalogu nie ma pliku zip.',
-    'msg_not_zip_file' => 'To %s nie jest plikiem zip.',
-    'msg_error_while_unzip' => 'Błąd podczas rozpakowywania pliku %s.',
-    'msg_unzip_success' => 'Plik %s został rozpakowany.',
-    'msg_cannot_delete' => 'Tego pliku %s nie można usunąć.',
-    'msg_error_while_delete' => 'Błąd podczas usuwania pliku %s.',
-    'msg_delete_success' => 'Plik %s został usunięty.',
-    'msg_missing_token' => 'Brakujący token.',
-    'msg_invalid_token' => 'Nieprawidłowy Token.',
-    'msg_warning_files_overwrite' => 'Wszystkie rozpakowane pliki zostaną nadpisane, jeśli już istnieje.',
-    'msg_warning_file_delete' => 'Plik zostanie trwale usunięty.',
-    'msg_warning_script_delete' => 'Ten plik skryptu zostanie trwale usunięty.',
-    'msg_remind_to_delete' => 'Pamiętaj, aby usunąć ten skrypt po zakończeniu.',
-    'msg_are_you_sure' => 'Jesteś pewny?',
-    'msg_confirm_your_action' => 'Potwierdź swoje działanie.',
-    'msg_action_proceed' => 'Tak, kontynuuj',
-    'msg_action_close' => 'Nie, blisko',
-),
-'de' =>
-array (
-    'method' => 'Methode',
-    'download' => 'Herunterladen',
-    'unzip_it' => 'Entpacken Sie es',
-    'delete_it' => 'Lösche es',
-    'file' => 'Datei',
-    'files' => 'Dateien',
-    'msg_found_files' => 'Gefunden %s in diesem Verzeichnis.',
-    'msg_files_not_found' => 'In diesem Verzeichnis befindet sich keine Zip-Datei.',
-    'msg_not_zip_file' => 'Dies %s ist keine Zip-Datei.',
-    'msg_error_while_unzip' => 'Fehler beim Entpacken der Datei %s.',
-    'msg_unzip_success' => 'Datei %s wurde entpackt.',
-    'msg_cannot_delete' => 'Diese Datei %s kann nicht gelöscht werden.',
-    'msg_error_while_delete' => 'Fehler beim Löschen der Datei %s.',
-    'msg_delete_success' => 'Datei %s wurde gelöscht.',
-    'msg_missing_token' => 'Fehlendes Token',
-    'msg_invalid_token' => 'Ungültiges Token',
-    'msg_warning_files_overwrite' => 'Alle entpackten Dateien werden überschrieben, wenn sie bereits existieren.',
-    'msg_warning_file_delete' => 'Die Datei wird dauerhaft gelöscht.',
-    'msg_warning_script_delete' => 'Diese Skriptdatei wird dauerhaft gelöscht.',
-    'msg_remind_to_delete' => 'Denken Sie daran, diese Skriptdatei zu löschen, wenn Sie fertig sind.',
-    'msg_are_you_sure' => 'Bist du sicher?',
-    'msg_confirm_your_action' => 'Bestätigen Sie Ihre Aktion.',
-    'msg_action_proceed' => 'Ja, fahre fort',
-    'msg_action_close' => 'Nein, nah',
-),
-'es' =>
-array (
-    'method' => 'Método',
-    'download' => 'Descargar',
-    'unzip_it' => 'Descomprimirlo',
-    'delete_it' => 'Bórralo',
-    'file' => 'archivo',
-    'files' => 'archivos',
-    'msg_found_files' => 'Encontrado %s en este directorio.',
-    'msg_files_not_found' => 'No hay un archivo zip en este directorio.',
-    'msg_not_zip_file' => 'Este %s no es un archivo zip.',
-    'msg_error_while_unzip' => 'Error al descomprimir archivo %s.',
-    'msg_unzip_success' => 'El archivo %s ha sido desconectado.',
-    'msg_cannot_delete' => 'Este archivo %s no puede ser eliminado.',
-    'msg_error_while_delete' => 'Error al eliminar el archivo %s.',
-    'msg_delete_success' => 'Archivo %s ha sido eliminado.',
-    'msg_missing_token' => 'Falta token.',
-    'msg_invalid_token' => 'Simbolo no valido.',
-    'msg_warning_files_overwrite' => 'Todos los archivos descomprimidos se sobrescribirán si ya existen.',
-    'msg_warning_file_delete' => 'El archivo se eliminará permanentemente.',
-    'msg_warning_script_delete' => 'Este archivo de script se eliminará permanentemente.',
-    'msg_remind_to_delete' => 'Recuerde eliminar este archivo de script cuando haya terminado.',
-    'msg_are_you_sure' => '¿Estás seguro?',
-    'msg_confirm_your_action' => 'Confirma tu acción',
-    'msg_action_proceed' => 'Sí, proceder',
-    'msg_action_close' => 'No cerrar',
-),
-);
-
 // === Helpers === //
 
 /**
@@ -341,9 +238,115 @@ function _h($text)
 function _t($key)
 {
     $availableLanguages = ['en', 'pl', 'de', 'es'];
-    global $translations;
 
-    if (! empty($_GET['lang'])) {
+    $translations = [
+        'en' => [
+          'method' => 'Method',
+          'download' => 'Download',
+          'unzip_it' => 'Unzip it',
+          'delete_it' => 'Delete it',
+          'zip_file' => 'zip file',
+          'zip_files' => 'zip files',
+          'msg_found_files' => 'Found %s in this directory.',
+          'msg_files_not_found' => 'There is no zip file in this directory.',
+          'msg_not_zip_file' => 'This %s is not a zip file.',
+          'msg_error_while_unzip' => 'Error while unzipping file %s.',
+          'msg_unzip_success' => 'File %s has been unziped.',
+          'msg_cannot_delete' => 'This file %s cannot be deleted.',
+          'msg_error_while_delete' => 'Error while deleting file %s.',
+          'msg_delete_success' => 'File %s has been deleted.',
+          'msg_missing_token' => 'Missing token.',
+          'msg_invalid_token' => 'Invalid token.',
+          'msg_warning_files_overwrite' => 'All unzipped files will be overwritten if already exists.',
+          'msg_warning_file_delete' => 'File will be deleted permanently.',
+          'msg_warning_script_delete' => 'This script file will be deleted permanently.',
+          'msg_remind_to_delete' => 'Remember to delete this script file when you are done.',
+          'msg_are_you_sure' => 'Are you sure?',
+          'msg_confirm_your_action' => 'Confirm your action.',
+          'msg_action_proceed' => 'Yes, proceed',
+          'msg_action_close' => 'No, close',
+        ],
+        'pl' => [
+          'method' => 'metoda',
+          'download' => 'Pobieranie',
+          'unzip_it' => 'Rozpakuj to',
+          'delete_it' => 'Usuń to',
+          'zip_file' => 'plik zip',
+          'zip_files' => 'pliki zip',
+          'msg_found_files' => 'Znaleziono %s w tym katalogu.',
+          'msg_files_not_found' => 'W tym katalogu nie ma pliku zip.',
+          'msg_not_zip_file' => 'To %s nie jest plikiem zip.',
+          'msg_error_while_unzip' => 'Błąd podczas rozpakowywania pliku %s.',
+          'msg_unzip_success' => 'Plik %s został rozpakowany.',
+          'msg_cannot_delete' => 'Tego pliku %s nie można usunąć.',
+          'msg_error_while_delete' => 'Błąd podczas usuwania pliku %s.',
+          'msg_delete_success' => 'Plik %s został usunięty.',
+          'msg_missing_token' => 'Brakujący token.',
+          'msg_invalid_token' => 'Nieprawidłowy Token.',
+          'msg_warning_files_overwrite' => 'Wszystkie rozpakowane pliki zostaną nadpisane, jeśli już istnieje.',
+          'msg_warning_file_delete' => 'Plik zostanie trwale usunięty.',
+          'msg_warning_script_delete' => 'Ten plik skryptu zostanie trwale usunięty.',
+          'msg_remind_to_delete' => 'Pamiętaj, aby usunąć ten skrypt po zakończeniu.',
+          'msg_are_you_sure' => 'Jesteś pewny?',
+          'msg_confirm_your_action' => 'Potwierdź swoje działanie.',
+          'msg_action_proceed' => 'Tak, kontynuuj',
+          'msg_action_close' => 'Nie, blisko',
+        ],
+        'de' => [
+          'method' => 'Methode',
+          'download' => 'Herunterladen',
+          'unzip_it' => 'Entpacken Sie es',
+          'delete_it' => 'Lösche es',
+          'zip_file' => 'zip-Datei',
+          'zip_files' => 'Zip-Dateien',
+          'msg_found_files' => 'Gefunden %s in diesem Verzeichnis.',
+          'msg_files_not_found' => 'In diesem Verzeichnis befindet sich keine Zip-Datei.',
+          'msg_not_zip_file' => 'Dies %s ist keine Zip-Datei.',
+          'msg_error_while_unzip' => 'Fehler beim Entpacken der Datei %s.',
+          'msg_unzip_success' => 'Datei %s wurde entpackt.',
+          'msg_cannot_delete' => 'Diese Datei %s kann nicht gelöscht werden.',
+          'msg_error_while_delete' => 'Fehler beim Löschen der Datei %s.',
+          'msg_delete_success' => 'Datei %s wurde gelöscht.',
+          'msg_missing_token' => 'Fehlendes Token',
+          'msg_invalid_token' => 'Ungültiges Token',
+          'msg_warning_files_overwrite' => 'Alle entpackten Dateien werden überschrieben, wenn sie bereits existieren.',
+          'msg_warning_file_delete' => 'Die Datei wird dauerhaft gelöscht.',
+          'msg_warning_script_delete' => 'Diese Skriptdatei wird dauerhaft gelöscht.',
+          'msg_remind_to_delete' => 'Denken Sie daran, diese Skriptdatei zu löschen, wenn Sie fertig sind.',
+          'msg_are_you_sure' => 'Bist du sicher?',
+          'msg_confirm_your_action' => 'Bestätigen Sie Ihre Aktion.',
+          'msg_action_proceed' => 'Ja, fahre fort',
+          'msg_action_close' => 'Nein, nah',
+        ],
+        'es' => [
+          'method' => 'Método',
+          'download' => 'Descargar',
+          'unzip_it' => 'Descomprimirlo',
+          'delete_it' => 'Bórralo',
+          'zip_file' => 'archivo zip',
+          'zip_files' => 'archivos zip',
+          'msg_found_files' => 'Encontrado %s en este directorio.',
+          'msg_files_not_found' => 'No hay un archivo zip en este directorio.',
+          'msg_not_zip_file' => 'Este %s no es un archivo zip.',
+          'msg_error_while_unzip' => 'Error al descomprimir archivo %s.',
+          'msg_unzip_success' => 'El archivo %s ha sido desconectado.',
+          'msg_cannot_delete' => 'Este archivo %s no puede ser eliminado.',
+          'msg_error_while_delete' => 'Error al eliminar el archivo %s.',
+          'msg_delete_success' => 'Archivo %s ha sido eliminado.',
+          'msg_missing_token' => 'Falta token.',
+          'msg_invalid_token' => 'Simbolo no valido.',
+          'msg_warning_files_overwrite' => 'Todos los archivos descomprimidos se sobrescribirán si ya existen.',
+          'msg_warning_file_delete' => 'El archivo se eliminará permanentemente.',
+          'msg_warning_script_delete' => 'Este archivo de script se eliminará permanentemente.',
+          'msg_remind_to_delete' => 'Recuerde eliminar este archivo de script cuando haya terminado.',
+          'msg_are_you_sure' => '¿Estás seguro?',
+          'msg_confirm_your_action' => 'Confirma tu acción',
+          'msg_action_proceed' => 'Sí, proceder',
+          'msg_action_close' => 'No cerrar',
+        ],
+    ];
+
+    if (! empty($_GET['lang']) && in_array($_GET['lang'], $availableLanguages)) {
         $language = $_GET['lang'];
     }
     if (empty($language)) {
@@ -369,7 +372,16 @@ function _t($key)
     if (empty($language)) {
         $language = 'en';
     }
-    return (! empty($translations[$language][$key])) ? $translations[$language][$key] : $key;
+
+    $result = (! empty($translations[$language][$key])) ? $translations[$language][$key] : $key;
+
+    if (func_num_args() > 1) {
+        $args = func_get_args();
+        $key = array_shift($args);
+        $result = vsprintf($result, $args);
+    }
+
+    return $result;
 }
 ?>
 <!DOCTYPE html>
@@ -432,7 +444,7 @@ function _t($key)
                 <?php if ($unZipper->getZips()): ?>
                     <div class="form-control mb-3 d-flex justify-content-around align-items-center">
 
-                        <strong>Method:</strong>
+                        <strong><?=_t('method')?>:</strong>
 
                         <div class="form-check">
                             <label class="form-check-label">
@@ -461,19 +473,19 @@ function _t($key)
                         <?php foreach ($unZipper->getZips() as $key => $zip): ?>
                             <li class="list-group-item clearfix">
                                 <h2 class="text-nowrap float-left mb-0">
-                                    <a href="<?=$zip?>" title="Download <?=_h($zip)?>">
+                                    <a href="<?=$zip?>" title="<?=_t('download')?> <?=_h($zip)?>">
                                         <i class="fas fa-file-archive mr-1"></i> <?=$zip?>
                                     </a>
                                 </h2>
                                 <input type="hidden" name="zipfiles[<?=$key?>]" value="<?=_h($zip)?>" />
-                                <button type="submit" class="btn-unzip btn-modal btn btn-warning float-right mb-0" title="Unzip it" data-modal-body="All unzipped files will be overwritten if already exists.">
+                                <button type="submit" class="btn-unzip btn-modal btn btn-warning float-right mb-0" title="<?=_t('unzip_it')?>" data-modal-body="<?=_t('msg_warning_files_overwrite')?>">
                                     <i class="fas fa-cubes mr-1"></i>
-                                    Unzip it
+                                    <?=_t('unzip_it')?>
                                 </button>
                                 <input type="hidden" name="delfiles[<?=$key?>]" value="<?=_h($zip)?>" />
-                                <button type="submit" class="btn-delete btn-modal btn btn-outline-danger float-right mb-0 mr-3" title="Delete it" data-modal-body="File will be deleted permanently.">
+                                <button type="submit" class="btn-delete btn-modal btn btn-outline-danger float-right mb-0 mr-3" title="<?=_t('delete_it')?>" data-modal-body="<?=_t('msg_warning_file_delete')?>">
                                     <i class="fas fa-trash-alt mr-1"></i>
-                                    Delete it
+                                    <?=_t('delete_it')?>
                                 </button>
                             </li>
                         <?php endforeach ?>
@@ -491,9 +503,9 @@ function _t($key)
 
                 <div class="reminder-box mt-3 text-center">
                     <input type="hidden" name="delfiles[]" value="unzipper.php" />
-                    <button type="button" class="btn-delete btn-modal btn btn-outline-warning" title="Delete it" data-modal-body="This script file will be deleted permanently.">
+                    <button type="button" class="btn-delete btn-modal btn btn-outline-warning" title="<?=_t('delete_it')?>" data-modal-body="<?=_t('msg_warning_script_delete')?>">
                         <i class="fas fa-exclamation-circle mr-1"></i>
-                        Remember to delete this script file when you are done.
+                        <?=_t('msg_remind_to_delete')?>
                     </button>
                 </div>
 
@@ -506,17 +518,17 @@ function _t($key)
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Are you sure?</h5>
+                    <h5 class="modal-title"><?=_t('msg_are_you_sure')?></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Confirm your action.
+                    <?=_t('msg_confirm_your_action')?>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary form-confirm">Yes, proceed</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No, close</button>
+                    <button type="button" class="btn btn-primary form-confirm"><?=_t('msg_action_proceed')?></button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?=_t('msg_action_close')?></button>
                 </div>
             </div>
         </div>
