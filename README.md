@@ -15,7 +15,7 @@ Unzip zip files. One file server side simple unzipper with intuitive UI.
     - only zip files may be unziped,
     - only zip files and script itself may be deleted,
     - all actions require confirmation.
-- Available in few languages: en, pl, de, es, ru (auto detected or posibble to change by custom URL for e.g. `unzipper.php/pl`).
+- Available in few languages: en, pl, de, es, ru (auto detected or posibble to change by custom URL for e.g. `unzipper.php/pl` or `unzipper.php?lang=en`).
 
 ## Usage
 Upload `unzipper.php` file to your directory with zip file(s) on the server and use it in your browser:
