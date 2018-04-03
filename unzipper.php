@@ -38,7 +38,7 @@ class UnZipper
             if ($this->checkExtention($file)) {
                 $this->zips[] = $file;
             }
-        }        
+        }
     }
 
     private function countZips()
@@ -46,7 +46,7 @@ class UnZipper
         if ($this->message) {
             return false;
         }
-        
+
         $count = count($this->zips);
         if ($count) {
             $file = ($count == 1) ? 'file' : 'files';
@@ -212,6 +212,119 @@ class UnZipper
 
 $unZipper = new UnZipper();
 
+// === Translations === //
+
+$translations = array (
+'en' =>
+array (
+    'method' => 'Method',
+    'download' => 'Download',
+    'unzip_it' => 'Unzip it',
+    'delete_it' => 'Delete it',
+    'file' => 'file',
+    'files' => 'files',
+    'msg_found_files' => 'Found %s in this directory.',
+    'msg_files_not_found' => 'There is no zip file in this directory.',
+    'msg_not_zip_file' => 'This %s is not a zip file.',
+    'msg_error_while_unzip' => 'Error while unzipping file %s.',
+    'msg_unzip_success' => 'File %s has been unziped.',
+    'msg_cannot_delete' => 'This file %s cannot be deleted.',
+    'msg_error_while_delete' => 'Error while deleting file %s.',
+    'msg_delete_success' => 'File %s has been deleted.',
+    'msg_missing_token' => 'Missing token.',
+    'msg_invalid_token' => 'Invalid token.',
+    'msg_warning_files_overwrite' => 'All unzipped files will be overwritten if already exists.',
+    'msg_warning_file_delete' => 'File will be deleted permanently.',
+    'msg_warning_script_delete' => 'This script file will be deleted permanently.',
+    'msg_remind_to_delete' => 'Remember to delete this script file when you are done.',
+    'msg_are_you_sure' => 'Are you sure?',
+    'msg_confirm_your_action' => 'Confirm your action.',
+    'msg_action_proceed' => 'Yes, proceed',
+    'msg_action_close' => 'No, close',
+),
+'pl' =>
+array (
+    'method' => 'metoda',
+    'download' => 'Pobieranie',
+    'unzip_it' => 'Rozpakuj to',
+    'delete_it' => 'Usuń to',
+    'file' => 'plik',
+    'files' => 'akta',
+    'msg_found_files' => 'Znaleziono %s w tym katalogu.',
+    'msg_files_not_found' => 'W tym katalogu nie ma pliku zip.',
+    'msg_not_zip_file' => 'To %s nie jest plikiem zip.',
+    'msg_error_while_unzip' => 'Błąd podczas rozpakowywania pliku %s.',
+    'msg_unzip_success' => 'Plik %s został rozpakowany.',
+    'msg_cannot_delete' => 'Tego pliku %s nie można usunąć.',
+    'msg_error_while_delete' => 'Błąd podczas usuwania pliku %s.',
+    'msg_delete_success' => 'Plik %s został usunięty.',
+    'msg_missing_token' => 'Brakujący token.',
+    'msg_invalid_token' => 'Nieprawidłowy Token.',
+    'msg_warning_files_overwrite' => 'Wszystkie rozpakowane pliki zostaną nadpisane, jeśli już istnieje.',
+    'msg_warning_file_delete' => 'Plik zostanie trwale usunięty.',
+    'msg_warning_script_delete' => 'Ten plik skryptu zostanie trwale usunięty.',
+    'msg_remind_to_delete' => 'Pamiętaj, aby usunąć ten skrypt po zakończeniu.',
+    'msg_are_you_sure' => 'Jesteś pewny?',
+    'msg_confirm_your_action' => 'Potwierdź swoje działanie.',
+    'msg_action_proceed' => 'Tak, kontynuuj',
+    'msg_action_close' => 'Nie, blisko',
+),
+'de' =>
+array (
+    'method' => 'Methode',
+    'download' => 'Herunterladen',
+    'unzip_it' => 'Entpacken Sie es',
+    'delete_it' => 'Lösche es',
+    'file' => 'Datei',
+    'files' => 'Dateien',
+    'msg_found_files' => 'Gefunden %s in diesem Verzeichnis.',
+    'msg_files_not_found' => 'In diesem Verzeichnis befindet sich keine Zip-Datei.',
+    'msg_not_zip_file' => 'Dies %s ist keine Zip-Datei.',
+    'msg_error_while_unzip' => 'Fehler beim Entpacken der Datei %s.',
+    'msg_unzip_success' => 'Datei %s wurde entpackt.',
+    'msg_cannot_delete' => 'Diese Datei %s kann nicht gelöscht werden.',
+    'msg_error_while_delete' => 'Fehler beim Löschen der Datei %s.',
+    'msg_delete_success' => 'Datei %s wurde gelöscht.',
+    'msg_missing_token' => 'Fehlendes Token',
+    'msg_invalid_token' => 'Ungültiges Token',
+    'msg_warning_files_overwrite' => 'Alle entpackten Dateien werden überschrieben, wenn sie bereits existieren.',
+    'msg_warning_file_delete' => 'Die Datei wird dauerhaft gelöscht.',
+    'msg_warning_script_delete' => 'Diese Skriptdatei wird dauerhaft gelöscht.',
+    'msg_remind_to_delete' => 'Denken Sie daran, diese Skriptdatei zu löschen, wenn Sie fertig sind.',
+    'msg_are_you_sure' => 'Bist du sicher?',
+    'msg_confirm_your_action' => 'Bestätigen Sie Ihre Aktion.',
+    'msg_action_proceed' => 'Ja, fahre fort',
+    'msg_action_close' => 'Nein, nah',
+),
+'es' =>
+array (
+    'method' => 'Método',
+    'download' => 'Descargar',
+    'unzip_it' => 'Descomprimirlo',
+    'delete_it' => 'Bórralo',
+    'file' => 'archivo',
+    'files' => 'archivos',
+    'msg_found_files' => 'Encontrado %s en este directorio.',
+    'msg_files_not_found' => 'No hay un archivo zip en este directorio.',
+    'msg_not_zip_file' => 'Este %s no es un archivo zip.',
+    'msg_error_while_unzip' => 'Error al descomprimir archivo %s.',
+    'msg_unzip_success' => 'El archivo %s ha sido desconectado.',
+    'msg_cannot_delete' => 'Este archivo %s no puede ser eliminado.',
+    'msg_error_while_delete' => 'Error al eliminar el archivo %s.',
+    'msg_delete_success' => 'Archivo %s ha sido eliminado.',
+    'msg_missing_token' => 'Falta token.',
+    'msg_invalid_token' => 'Simbolo no valido.',
+    'msg_warning_files_overwrite' => 'Todos los archivos descomprimidos se sobrescribirán si ya existen.',
+    'msg_warning_file_delete' => 'El archivo se eliminará permanentemente.',
+    'msg_warning_script_delete' => 'Este archivo de script se eliminará permanentemente.',
+    'msg_remind_to_delete' => 'Recuerde eliminar este archivo de script cuando haya terminado.',
+    'msg_are_you_sure' => '¿Estás seguro?',
+    'msg_confirm_your_action' => 'Confirma tu acción',
+    'msg_action_proceed' => 'Sí, proceder',
+    'msg_action_close' => 'No cerrar',
+),
+);
+
 // === Helpers === //
 
 /**
@@ -227,12 +340,36 @@ function _h($text)
  */
 function _t($key)
 {
+    $availableLanguages = ['en', 'pl', 'de', 'es'];
     global $translations;
-    $language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);    
-    if (! $language) {
+
+    if (! empty($_GET['lang'])) {
+        $language = $_GET['lang'];
+    }
+    if (empty($language)) {
+        $availableLanguages = array_flip($availableLanguages);
+        $languagesWeight = [];
+        preg_match_all('~([\w-]+)(?:[^,\d]+([\d.]+))?~', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches, PREG_SET_ORDER);
+        foreach ($matches as $match) {
+            list($a, $b) = explode('-', $match[1]) + ['', ''];
+            $value = isset($match[2]) ? (float) $match[2] : 1.0;
+            if (isset($availableLanguages[$match[1]])) {
+                $languagesWeight[$match[1]] = $value;
+                continue;
+            }
+            if (isset($availableLanguages[$a])) {
+                $languagesWeight[$a] = $value - 0.1;
+            }
+        }
+        if ($languagesWeight) {
+            arsort($languagesWeight);
+            $language = key($languagesWeight);
+        }
+    }
+    if (empty($language)) {
         $language = 'en';
     }
-    return ($translations[$language][$key]) ? $translations[$language][$key] : $translations[$language]['en'];
+    return (! empty($translations[$language][$key])) ? $translations[$language][$key] : $key;
 }
 ?>
 <!DOCTYPE html>
@@ -267,7 +404,7 @@ function _t($key)
     <header>
         <div class="container">
             <h1 class="page-title text-center my-3">
-                <a href="unzipper.php" title="unZipper">
+                <a href="unzipper.php" title="UnZipper">
                     <i class="fas fa-cube mr-1"></i>
                     UnZipper
                 </a>
