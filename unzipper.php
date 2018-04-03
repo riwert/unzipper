@@ -257,7 +257,7 @@ function _t($key)
           'msg_delete_success' => 'File %s has been deleted.',
           'msg_missing_token' => 'Missing token.',
           'msg_invalid_token' => 'Invalid token.',
-          'msg_warning_files_overwrite' => 'All unzipped files will be overwritten if already exists.',
+          'msg_warning_files_overwrite' => 'All unzipped files will be overwritten if they already exist.',
           'msg_warning_file_delete' => 'File will be deleted permanently.',
           'msg_warning_script_delete' => 'This script file will be deleted permanently.',
           'msg_remind_to_delete' => 'Remember to delete this script file when you are done.',
@@ -283,7 +283,7 @@ function _t($key)
           'msg_delete_success' => 'Plik %s został usunięty.',
           'msg_missing_token' => 'Brakujący token.',
           'msg_invalid_token' => 'Nieprawidłowy Token.',
-          'msg_warning_files_overwrite' => 'Wszystkie rozpakowane pliki zostaną nadpisane, jeśli już istnieje.',
+          'msg_warning_files_overwrite' => 'Wszystkie rozpakowane pliki zostaną nadpisane, jeśli już istnieją.',
           'msg_warning_file_delete' => 'Plik zostanie trwale usunięty.',
           'msg_warning_script_delete' => 'Ten plik skryptu zostanie trwale usunięty.',
           'msg_remind_to_delete' => 'Pamiętaj, aby usunąć ten skrypt po zakończeniu.',
@@ -371,7 +371,7 @@ function _t($key)
           'msg_action_close' => 'Нет, закройте его',
         ],
     ];
-
+      
     if (! empty($_GET['lang'])) {
         $language = (in_array($_GET['lang'], $availableLanguages)) ? $_GET['lang'] : 'en';
     }
