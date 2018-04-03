@@ -537,7 +537,7 @@ function _t($key)
     <footer class="text-center my-3">
         <div class="container">
             Made by
-            <a href="http://revert.pl" title="Programista PHP i Web Developer" target="_blank">
+            <a href="http://revert.pl" title="Full-Stack Developer" target="_blank">
                 Revert
             </a>
         </div>
