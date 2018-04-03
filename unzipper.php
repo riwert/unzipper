@@ -212,11 +212,28 @@ class UnZipper
 
 $unZipper = new UnZipper();
 
-function safe($text)
+// === Helpers === //
+
+/**
+ * HTML special chars alias helper
+ */
+function _h($text)
 {
     return htmlspecialchars($text, ENT_COMPAT);
 }
 
+/**
+ * Translate helper
+ */
+function _t($key)
+{
+    global $translations;
+    $language = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);    
+    if (! $language) {
+        $language = 'en';
+    }
+    return ($translations[$language][$key]) ? $translations[$language][$key] : $translations[$language]['en'];
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -263,7 +280,7 @@ function safe($text)
 
             <div class="notification-box">
                 <?php if ($unZipper->getMessage()): ?>
-                    <div class="notification alert alert-dismissible fade show alert-<?=safe($unZipper->getStatus())?>">
+                    <div class="notification alert alert-dismissible fade show alert-<?=_h($unZipper->getStatus())?>">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <?=$unZipper->getMessage()?>
                     </div>
@@ -307,19 +324,19 @@ function safe($text)
                         <?php foreach ($unZipper->getZips() as $key => $zip): ?>
                             <li class="list-group-item clearfix">
                                 <h2 class="text-nowrap float-left mb-0">
-                                    <a href="<?=$zip?>" title="Download <?=safe($zip)?>">
+                                    <a href="<?=$zip?>" title="Download <?=_h($zip)?>">
                                         <i class="fas fa-file-archive mr-1"></i> <?=$zip?>
                                     </a>
                                 </h2>
-                                <input type="hidden" name="zipfiles[<?=$key?>]" value="<?=safe($zip)?>" />
-                                <button type="submit" class="btn-unzip btn-modal btn btn-warning float-right mb-0" title="Unzip It" data-modal-body="All unzipped files will be overwritten if already exists.">
+                                <input type="hidden" name="zipfiles[<?=$key?>]" value="<?=_h($zip)?>" />
+                                <button type="submit" class="btn-unzip btn-modal btn btn-warning float-right mb-0" title="Unzip it" data-modal-body="All unzipped files will be overwritten if already exists.">
                                     <i class="fas fa-cubes mr-1"></i>
-                                    Unzip It
+                                    Unzip it
                                 </button>
-                                <input type="hidden" name="delfiles[<?=$key?>]" value="<?=safe($zip)?>" />
-                                <button type="submit" class="btn-delete btn-modal btn btn-outline-danger float-right mb-0 mr-3" title="Delete It" data-modal-body="File will be deleted permanently.">
+                                <input type="hidden" name="delfiles[<?=$key?>]" value="<?=_h($zip)?>" />
+                                <button type="submit" class="btn-delete btn-modal btn btn-outline-danger float-right mb-0 mr-3" title="Delete it" data-modal-body="File will be deleted permanently.">
                                     <i class="fas fa-trash-alt mr-1"></i>
-                                    Delete It
+                                    Delete it
                                 </button>
                             </li>
                         <?php endforeach ?>
@@ -337,7 +354,7 @@ function safe($text)
 
                 <div class="reminder-box mt-3 text-center">
                     <input type="hidden" name="delfiles[]" value="unzipper.php" />
-                    <button type="button" class="btn-delete btn-modal btn btn-outline-warning" title="Delete It" data-modal-body="This script file will be deleted permanently.">
+                    <button type="button" class="btn-delete btn-modal btn btn-outline-warning" title="Delete it" data-modal-body="This script file will be deleted permanently.">
                         <i class="fas fa-exclamation-circle mr-1"></i>
                         Remember to delete this script file when you are done.
                     </button>
