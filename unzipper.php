@@ -237,11 +237,11 @@ function _h($text)
  */
 function _t($key)
 {
-    $availableLanguages = ['en', 'pl', 'de', 'es'];
+    $availableLanguages = ['en', 'pl', 'de', 'es', 'ru'];
 
     $translations = [
         'en' => [
-          'method' => 'Method',
+          'method' => 'The method',
           'download' => 'Download',
           'unzip_it' => 'Unzip it',
           'delete_it' => 'Delete it',
@@ -267,7 +267,7 @@ function _t($key)
           'msg_action_close' => 'No, close it',
         ],
         'pl' => [
-          'method' => 'metoda',
+          'method' => 'Metoda',
           'download' => 'Pobieranie',
           'unzip_it' => 'Rozpakuj to',
           'delete_it' => 'Usuń to',
@@ -293,7 +293,7 @@ function _t($key)
           'msg_action_close' => 'Nie, zamknij to',
         ],
         'de' => [
-          'method' => 'Methode',
+          'method' => 'Die Methode',
           'download' => 'Herunterladen',
           'unzip_it' => 'Entpacken Sie es',
           'delete_it' => 'Lösche es',
@@ -319,7 +319,7 @@ function _t($key)
           'msg_action_close' => 'Nein, schließe es',
         ],
         'es' => [
-          'method' => 'Método',
+          'method' => 'El método',
           'download' => 'Descargar',
           'unzip_it' => 'Descomprimirlo',
           'delete_it' => 'Bórralo',
@@ -343,6 +343,32 @@ function _t($key)
           'msg_confirm_your_action' => 'Confirma tu acción',
           'msg_action_proceed' => 'Sí, proceda',
           'msg_action_close' => 'No, ciérralo',
+        ],
+        'ru' => [
+          'method' => 'Метод',
+          'download' => 'Скачать',
+          'unzip_it' => 'Распаковать',
+          'delete_it' => 'Удали это',
+          'zip_file' => 'zip-файл',
+          'zip_files' => 'zip-файлы',
+          'msg_found_files' => 'Найдено %s в этом каталоге.',
+          'msg_files_not_found' => 'В этом каталоге нет zip-файла.',
+          'msg_not_zip_file' => 'Это %s не является zip-файлом.',
+          'msg_error_while_unzip' => 'Ошибка при распаковке файла %s.',
+          'msg_unzip_success' => 'Файл %s был распакован.',
+          'msg_cannot_delete' => 'Этот файл %s не может быть удален.',
+          'msg_error_while_delete' => 'Ошибка при удалении файла %s.',
+          'msg_delete_success' => 'Файл %s удален.',
+          'msg_missing_token' => 'Отсутствует токен.',
+          'msg_invalid_token' => 'Недопустимый токен.',
+          'msg_warning_files_overwrite' => 'Все распакованные файлы будут перезаписаны, если они уже существуют.',
+          'msg_warning_file_delete' => 'Файл будет удален постоянно.',
+          'msg_warning_script_delete' => 'Этот файл сценария будет удален постоянно.',
+          'msg_remind_to_delete' => 'Не забудьте удалить этот файл сценария, когда закончите.',
+          'msg_are_you_sure' => 'Ты уверен?',
+          'msg_confirm_your_action' => 'Подтвердите свое действие.',
+          'msg_action_proceed' => 'Да, продолжайте',
+          'msg_action_close' => 'Нет, закройте его',
         ],
     ];
 
