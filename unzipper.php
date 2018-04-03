@@ -221,7 +221,7 @@ class UnZipper
     }
 
     public function getScriptPath()
-    {        
+    {
         return $_SERVER['REQUEST_URI'] ;
     }
 
@@ -382,10 +382,10 @@ function _t($key)
           'msg_action_close' => 'Нет, закройте его',
         ],
     ];
-      
+
     if (! empty($_GET['lang'])) {
         $language = (in_array($_GET['lang'], $availableLanguages)) ? $_GET['lang'] : 'en';
-    }    
+    }
     if (empty($language)) {
         $args = explode('/', $_SERVER['REQUEST_URI']);
         $cleanArgs = array_filter($args, function ($value) { return $value !== ''; });
