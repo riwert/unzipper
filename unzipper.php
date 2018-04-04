@@ -79,7 +79,7 @@ class UnZipper
             $this->message = _t('msg_not_zip_file', '<strong>' . $zip . '</strong>');
             $this->status = 'danger';
             return false;
-        }        
+        }
 
         switch ($method) {
             case 'execUnzip':
@@ -224,21 +224,19 @@ $unZipper = new UnZipper();
 // === Helpers === //
 
 /**
- * HTML special chars alias helper
+ * TranslateHelper
+ *
+ * Helps manage translations.
+ *
+ * @author Robert Wierzchowski <revert@revert.pl>
+ * @version 1.0.0
  */
-function _h($text)
+class TranslateHelper
 {
-    return htmlspecialchars($text, ENT_COMPAT);
-}
-
-/**
- * Translate helper
- */
-function _t($key)
-{
-    $availableLanguages = ['en', 'pl', 'de', 'es', 'ru'];
-
-    $translations = [
+    private static $language;
+    private static $defaultlanguage = 'en';
+    private static $availableLanguages = ['en', 'pl', 'de', 'es', 'ru'];
+    private static $translations = [
         'en' => [
           'method' => 'The method',
           'download' => 'Download',
@@ -371,50 +369,90 @@ function _t($key)
         ],
     ];
 
-    if (! empty($_GET['lang'])) {
-        $language = (in_array($_GET['lang'], $availableLanguages)) ? $_GET['lang'] : 'en';
+    private function __construct() {}
+
+    private static function findTranslation($key)
+    {
+        return (! empty(self::$translations[self::$language][$key])) ? self::$translations[self::$language][$key] : $key;
     }
-    if (empty($language)) {
+
+    private static function setLanguageFromGet($name)
+    {
+        if (! empty($_GET[$name])) {
+            self::$language = (in_array($_GET[$name], self::$availableLanguages)) ? $_GET[$name] : self::$defaultlanguage;
+        }
+    }
+
+    private static function setLanguageFromUri()
+    {
         $args = explode('/', $_SERVER['REQUEST_URI']);
         $cleanArgs = array_filter($args, function ($value) { return $value !== ''; });
         $lastArg = array_pop($cleanArgs);
-        if (in_array($lastArg, $availableLanguages)) {
-            $language = $lastArg;
+        if (in_array($lastArg, self::$availableLanguages)) {
+            self::$language = $lastArg;
         }
     }
-    if (empty($language)) {
-        $availableLanguages = array_flip($availableLanguages);
+
+    private static function setLanguageFromBrowser()
+    {
+        self::$availableLanguages = array_flip(self::$availableLanguages);
         $languagesWeight = [];
         preg_match_all('~([\w-]+)(?:[^,\d]+([\d.]+))?~', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $matches, PREG_SET_ORDER);
         foreach ($matches as $match) {
             list($a, $b) = explode('-', $match[1]) + ['', ''];
             $value = isset($match[2]) ? (float) $match[2] : 1.0;
-            if (isset($availableLanguages[$match[1]])) {
+            if (isset(self::$availableLanguages[$match[1]])) {
                 $languagesWeight[$match[1]] = $value;
                 continue;
             }
-            if (isset($availableLanguages[$a])) {
+            if (isset(self::$availableLanguages[$a])) {
                 $languagesWeight[$a] = $value - 0.1;
             }
         }
         if ($languagesWeight) {
             arsort($languagesWeight);
-            $language = key($languagesWeight);
+            self::$language = key($languagesWeight);
         }
     }
-    if (empty($language)) {
-        $language = 'en';
+
+    private static function setLanguage()
+    {
+        self::setLanguageFromGet('lang');
+        if (empty(self::$language)) {
+            self::setLanguageFromUri();
+        }
+        if (empty(self::$language)) {
+            self::setLanguageFromBrowser();
+        }
+        if (empty(self::$language)) {
+            self::$language = self::$defaultlanguage;
+        }
     }
 
-    $result = (! empty($translations[$language][$key])) ? $translations[$language][$key] : $key;
-
-    if (func_num_args() > 1) {
-        $args = func_get_args();
-        $key = array_shift($args);
-        $result = vsprintf($result, $args);
+    public static function getTranslation($key)
+    {
+        self::setLanguage();
+        return self::findTranslation($key);
     }
+}
+
+/**
+ * Translate helper function
+ */
+function _t($key, ...$args)
+{
+    $translation = TranslateHelper::getTranslation($key);
+    $result = vsprintf($translation, $args);
 
     return $result;
+}
+
+/**
+ * Alias of htmlspecialchars helper function
+ */
+function _h($text)
+{
+    return htmlspecialchars($text, ENT_COMPAT);
 }
 ?>
 <!DOCTYPE html>
