@@ -6,7 +6,7 @@ session_start();
  * Unzip zip files. One file server side simple unzipper with UI.
  *
  * @author Robert Wierzchowski <revert@revert.pl>
- * @version 1.1.0
+ * @version 1.1.1
  */
 class UnZipper
 {
@@ -20,10 +20,10 @@ class UnZipper
 
     public function __construct()
     {
-        if (! empty($_POST['zipfile']) && $this->verfiyToken()) {
-            $this->unZip($_POST['zipfile']);
+        if (! empty($_POST['zipfile']) && $this->verifyToken()) {
+            $this->unZip($_POST['zipfile'], $_POST['method']);
         }
-        if (! empty($_POST['delfile']) && $this->verfiyToken()) {
+        if (! empty($_POST['delfile']) && $this->verifyToken()) {
             $this->delete($_POST['delfile']);
         }
         $this->setToken();
@@ -75,16 +75,14 @@ class UnZipper
         return true;
     }
 
-    private function unZip($zip)
+    private function unZip($zip, $method = null)
     {
-        if (! $this->checkExtention($zip)) {
+        if (! $this->checkExtention($zip) || ! in_array($zip, scandir($this->dir))) {
             $this->message = _t('msg_not_zip_file', '<strong>' . $zip . '</strong>');
             //'This <strong>' . $zip . '</strong> is not a zip file.';
             $this->status = 'danger';
             return false;
-        }
-
-        $method = $_POST['method'];
+        }        
 
         switch ($method) {
             case 'execUnzip':
@@ -170,7 +168,7 @@ class UnZipper
         return true;
     }
 
-    private function verfiyToken()
+    private function verifyToken()
     {
         if (empty($_POST['token'])) {
             $this->message = _t('msg_missing_token');
