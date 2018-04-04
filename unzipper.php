@@ -52,11 +52,9 @@ class UnZipper
         if ($count) {
             $zipFile = ($count == 1) ? _t('zip_file') : _t('zip_files');
             $this->message = _t('msg_found_files', '<strong>' . $count . ' ' . $zipFile . '</strong>');
-            //'Found <strong>' . $count . ' zip ' . $file . '</strong> in this directory.';
             $this->status = 'info';
         } else {
             $this->message = _t('msg_files_not_found');
-            //'There is no zip file in this directory.';
             $this->status = 'warning';
         }
     }
@@ -79,7 +77,6 @@ class UnZipper
     {
         if (! $this->checkExtention($zip) || ! in_array($zip, scandir($this->dir))) {
             $this->message = _t('msg_not_zip_file', '<strong>' . $zip . '</strong>');
-            //'This <strong>' . $zip . '</strong> is not a zip file.';
             $this->status = 'danger';
             return false;
         }        
@@ -97,13 +94,11 @@ class UnZipper
 
         if (! $unzipResult) {
             $this->message = _t('msg_error_while_unzip', '<strong>' . $zip . '</strong>');
-            //'Error while unzipping file <strong>' . $zip . '</strong>.';
             $this->status = 'danger';
             return false;
         }
 
         $this->message = _t('msg_unzip_success', '<strong>' . $zip . '</strong>');
-        //'File <strong>' . $zip . '</strong> has been unziped.';
         $this->status = 'success';
 
         return true;
@@ -149,20 +144,17 @@ class UnZipper
     {
         if (! $this->checkExtention($file) && $file != basename(__FILE__)) {
             $this->message = _t('msg_cannot_delete', '<strong>' . $file . '</strong>');
-            //'This file <strong>' . $file . '</strong> cannot be deleted.';
             $this->status = 'danger';
             return false;
         }
 
         if (! unlink($file)) {
             $this->message = _t('msg_error_while_delete', '<strong>' . $file . '</strong>');
-            //'Error while deleting file <strong>' . $file . '</strong>.';
             $this->status = 'danger';
             return false;
         }
 
         $this->message = _t('msg_delete_success', '<strong>' . $file . '</strong>');
-        //'File <strong>' . $file . '</strong> has been deleted.';
         $this->status = 'success';
 
         return true;
@@ -172,14 +164,12 @@ class UnZipper
     {
         if (empty($_POST['token'])) {
             $this->message = _t('msg_missing_token');
-            //'Missing token.';
             $this->status = 'danger';
             return false;
         }
 
         if (! hash_equals($_SESSION['token'], $_POST['token'])) {
             $this->message = _t('msg_invalid_token');
-            //'Invalid token.';
             $this->status = 'danger';
             return false;
         }
