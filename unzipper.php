@@ -6,7 +6,7 @@ session_start();
  * Unzip zip files. One file server side simple unzipper with UI.
  *
  * @author Robert Wierzchowski <revert@revert.pl>
- * @version 1.1.1
+ * @version 1.1.2
  */
 class UnZipper
 {
@@ -17,6 +17,11 @@ class UnZipper
     private $status;
     private $token;
     private $output;
+    private $methods = [
+        'zipArchive' => 'ZipArchive',
+        'execUnzip' => 'exec unzip',
+        'systemUnzip' => 'system unzip',
+    ];
 
     public function __construct()
     {
@@ -216,6 +221,11 @@ class UnZipper
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function getMethods()
+    {
+        return $this->methods;
     }
 }
 
@@ -514,30 +524,15 @@ function _h($text)
 
                 <?php if ($unZipper->getZips()): ?>
                     <div class="form-control mb-3 d-flex justify-content-around align-items-center">
-
                         <strong><?=_t('method')?>:</strong>
-
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="method" value="zipArchive" <?=(empty($_POST['method']) || $_POST['method'] == 'zipArchive') ? 'checked' : ''?> />
-                                ZipArchive
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="method" value="execUnzip" <?=(! empty($_POST['method']) && $_POST['method'] == 'execUnzip') ? 'checked' : ''?> />
-                                exec unzip
-                            </label>
-                        </div>
-
-                        <div class="form-check">
-                            <label class="form-check-label">
-                                <input class="form-check-input" type="radio" name="method" value="systemUnzip" <?=(! empty($_POST['method']) && $_POST['method'] == 'systemUnzip') ? 'checked' : ''?> />
-                                system unzip
-                            </label>
-                        </div>
-
+                        <?php $i = 1; foreach ($unZipper->getMethods() as $methodKey => $methodName): ?>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="method" value="<?=$methodKey?>" <?=(empty($_POST['method']) && $i == 1 || ! empty($_POST['method']) && $_POST['method'] == $methodKey) ? 'checked' : ''?> />
+                                    <?=$methodName?>
+                                </label>
+                            </div>
+                        <?php $i++; endforeach; ?>
                     </div>
 
                     <ul class="list-group">
