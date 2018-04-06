@@ -263,7 +263,7 @@ class TranslateHelper
 
     private static function findTranslation($key)
     {
-        return (! empty(self::$translations[self::$language][$key])) ? self::$translations[self::$language][$key] : $key;
+        return (! empty(self::$translations[self::$language][$key])) ? self::$translations[self::$language][$key] : str_replace('_', ' ', ucfirst($key));
     }
 
     private static function setLanguageFromGet($name)
