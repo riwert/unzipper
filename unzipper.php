@@ -25,15 +25,25 @@ class UnZipper
 
     public function __construct()
     {
-        if (! empty($_POST['zipfile']) && $this->verifyToken()) {
-            $this->unZip($_POST['zipfile'], $_POST['method']);
-        }
-        if (! empty($_POST['delfile']) && $this->verifyToken()) {
-            $this->deleteFile($_POST['delfile']);
-        }
+        $this->checkIfUnZip();
+        $this->checkIfDeleteFile();
         $this->setToken();
         $this->findZips();
         $this->countZips();
+    }
+
+    private function checkIfUnZip()
+    {
+        if (! empty($_POST['zipfile']) && $this->verifyToken($_POST['token'])) {
+            $this->unZip($_POST['zipfile'], $_POST['method']);
+        }
+    }
+
+    private function checkIfDeleteFile()
+    {
+        if (! empty($_POST['delfile']) && $this->verifyToken($_POST['token'])) {
+            $this->deleteFile($_POST['delfile']);
+        }
     }
 
     private function findZips()
@@ -165,15 +175,15 @@ class UnZipper
         return true;
     }
 
-    private function verifyToken()
+    private function verifyToken($inputToken)
     {
-        if (empty($_POST['token'])) {
+        if (empty($inputToken)) {
             $this->alertMessage = _t('msg_missing_token');
             $this->alertStatus = 'danger';
             return false;
         }
 
-        if (! hash_equals($_SESSION['token'], $_POST['token'])) {
+        if (! hash_equals($_SESSION['token'], $inputToken)) {
             $this->alertMessage = _t('msg_invalid_token');
             $this->alertStatus = 'danger';
             return false;
