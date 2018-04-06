@@ -29,7 +29,7 @@ class UnZipper
             $this->unZip($_POST['zipfile'], $_POST['method']);
         }
         if (! empty($_POST['delfile']) && $this->verifyToken()) {
-            $this->delete($_POST['delfile']);
+            $this->deleteFile($_POST['delfile']);
         }
         $this->setToken();
         $this->findZips();
@@ -145,7 +145,7 @@ class UnZipper
         return true;
     }
 
-    private function delete($file)
+    private function deleteFile($file)
     {
         if (! $this->checkExtention($file) && $file != basename(__FILE__)) {
             $this->message = _t('msg_cannot_delete', '<strong>' . $file . '</strong>');
