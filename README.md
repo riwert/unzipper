@@ -15,24 +15,24 @@ Unzip zip files. One file server side simple unzipper with intuitive UI.
     - only zip files may be unziped,
     - only zip files and script itself may be deleted,
     - all actions require confirmation.
-- Available in few languages: en, pl, de, es, ru (auto detected or posibble to change by custom URL for e.g. `unzipper.php/pl` or `unzipper.php?lang=en`).
+- Available in few languages: EN, PL, DE, ES, RU.
 
 ## Usage
-Upload `unzipper.php` file to your directory with zip file(s) on the server and use it in your browser:
+Upload `unzipper.en.php` file to your directory with zip file(s) on the server and use it in your browser:
 ```
-http://yourdomain.com/path/to/unzipper.php
+http://yourdomain.com/path/to/unzipper.en.php
 ```
 ### Language change
 Available: en, pl, de, es, ru.
 ```
-http://yourdomain.com/path/to/unzipper.php/language
-```
-or
-```
-http://yourdomain.com/path/to/unzipper.php?lang=language
+http://yourdomain.com/path/to/unzipper.pl.php
 ```
 
-After you are done remember to delete `unzipper.php` script and all unnecessary zip files.
+After you are done remember to delete `unzipper.en.php` script and all unnecessary zip files.
 
 ## Download
-[unzipper.php](https://raw.github.com/riwert/unzipper/master/unzipper.php)
+[EN: unzipper.en.php](https://raw.github.com/riwert/unzipper/master/unzipper.en.php)
+[PL: unzipper.pl.php](https://raw.github.com/riwert/unzipper/master/unzipper.pl.php)
+[DE: unzipper.de.php](https://raw.github.com/riwert/unzipper/master/unzipper.de.php)
+[ES: unzipper.es.php](https://raw.github.com/riwert/unzipper/master/unzipper.es.php)
+[RU: unzipper.ru.php](https://raw.github.com/riwert/unzipper/master/unzipper.ru.php)
