@@ -6,15 +6,15 @@ session_start();
  * Unzip zip files. One file server side simple unzipper with UI.
  *
  * @author Robert Wierzchowski <revert@revert.pl>
- * @version 1.1.2
+ * @version 1.1.3
  */
 class UnZipper
 {
     private $title = 'UnZipper';
     private $dir = './';
     private $zips = [];
-    private $message;
-    private $status;
+    private $alertMessage;
+    private $alertStatus;
     private $token;
     private $output;
     private $methods = [
@@ -49,28 +49,28 @@ class UnZipper
 
     private function countZips()
     {
-        if ($this->message) {
+        if ($this->alertMessage) {
             return false;
         }
 
         $count = count($this->zips);
         if ($count) {
             $zipFile = ($count == 1) ? _t('zip_file') : _t('zip_files');
-            $this->message = _t('msg_found_files', '<strong>' . $count . ' ' . $zipFile . '</strong>');
-            $this->status = 'info';
+            $this->alertMessage = _t('msg_found_files', '<strong>' . $count . ' ' . $zipFile . '</strong>');
+            $this->alertStatus = 'info';
         } else {
-            $this->message = _t('msg_files_not_found');
-            $this->status = 'warning';
+            $this->alertMessage = _t('msg_files_not_found');
+            $this->alertStatus = 'warning';
         }
     }
 
-    private function checkExtention($file)
+    private function checkExtention($fileName)
     {
-        if (! file_exists($file)) {
+        if (! file_exists($fileName)) {
             return false;
         }
 
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
         if ($extension != 'zip') {
             return false;
         }
@@ -81,8 +81,8 @@ class UnZipper
     private function unZip($zip, $method = null)
     {
         if (! $this->checkExtention($zip) || ! in_array($zip, scandir($this->dir))) {
-            $this->message = _t('msg_not_zip_file', '<strong>' . $zip . '</strong>');
-            $this->status = 'danger';
+            $this->alertMessage = _t('msg_not_zip_file', '<strong>' . $zip . '</strong>');
+            $this->alertStatus = 'danger';
             return false;
         }
 
@@ -98,33 +98,33 @@ class UnZipper
         }
 
         if (! $unzipResult) {
-            $this->message = _t('msg_error_while_unzip', '<strong>' . $zip . '</strong>');
-            $this->status = 'danger';
+            $this->alertMessage = _t('msg_error_while_unzip', '<strong>' . $zip . '</strong>');
+            $this->alertStatus = 'danger';
             return false;
         }
 
-        $this->message = _t('msg_unzip_success', '<strong>' . $zip . '</strong>');
-        $this->status = 'success';
+        $this->alertMessage = _t('msg_unzip_success', '<strong>' . $zip . '</strong>');
+        $this->alertStatus = 'success';
 
         return true;
     }
 
-    private function unZipArchive($file)
+    private function unZipArchive($fileName)
     {
-        $path = pathinfo(realpath($file), PATHINFO_DIRNAME);
+        $dirPath = pathinfo(realpath($fileName), PATHINFO_DIRNAME);
         $zip = new ZipArchive;
-        if ($zip->open($file) !== true) {
+        if ($zip->open($fileName) !== true) {
             return false;
         }
-        $zip->extractTo($path);
+        $zip->extractTo($dirPath);
         $zip->close();
 
         return true;
     }
 
-    private function execUnzip($file)
+    private function execUnzip($fileName)
     {
-        if (! exec('unzip -o ' . $file, $output)) {
+        if (! exec('unzip -o ' . $fileName, $output)) {
             return false;
         }
 
@@ -133,10 +133,10 @@ class UnZipper
         return true;
     }
 
-    private function systemUnzip($file)
+    private function systemUnzip($fileName)
     {
         ob_start();
-            if (! system("unzip -o {$file}")) {
+            if (! system("unzip -o {$fileName}")) {
                 return false;
             }
             $this->output = nl2br(ob_get_contents());
@@ -145,22 +145,22 @@ class UnZipper
         return true;
     }
 
-    private function deleteFile($file)
+    private function deleteFile($fileName)
     {
-        if (! $this->checkExtention($file) && $file != basename(__FILE__)) {
-            $this->message = _t('msg_cannot_delete', '<strong>' . $file . '</strong>');
-            $this->status = 'danger';
+        if (! $this->checkExtention($fileName) && $fileName != basename(__FILE__)) {
+            $this->alertMessage = _t('msg_cannot_delete', '<strong>' . $fileName . '</strong>');
+            $this->alertStatus = 'danger';
             return false;
         }
 
-        if (! unlink($file)) {
-            $this->message = _t('msg_error_while_delete', '<strong>' . $file . '</strong>');
-            $this->status = 'danger';
+        if (! unlink($fileName)) {
+            $this->alertMessage = _t('msg_error_while_delete', '<strong>' . $fileName . '</strong>');
+            $this->alertStatus = 'danger';
             return false;
         }
 
-        $this->message = _t('msg_delete_success', '<strong>' . $file . '</strong>');
-        $this->status = 'success';
+        $this->alertMessage = _t('msg_delete_success', '<strong>' . $fileName . '</strong>');
+        $this->alertStatus = 'success';
 
         return true;
     }
@@ -168,14 +168,14 @@ class UnZipper
     private function verifyToken()
     {
         if (empty($_POST['token'])) {
-            $this->message = _t('msg_missing_token');
-            $this->status = 'danger';
+            $this->alertMessage = _t('msg_missing_token');
+            $this->alertStatus = 'danger';
             return false;
         }
 
         if (! hash_equals($_SESSION['token'], $_POST['token'])) {
-            $this->message = _t('msg_invalid_token');
-            $this->status = 'danger';
+            $this->alertMessage = _t('msg_invalid_token');
+            $this->alertStatus = 'danger';
             return false;
         }
 
@@ -200,12 +200,12 @@ class UnZipper
 
     public function getMessage()
     {
-        return $this->message;
+        return $this->alertMessage;
     }
 
     public function getStatus()
     {
-        return $this->status;
+        return $this->alertStatus;
     }
 
     public function getOutput()
