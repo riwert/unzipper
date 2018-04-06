@@ -3,7 +3,7 @@ return array (
   'en' => 
   array (
     'method' => 'Unpacking method',
-    'download' => 'Download zip',
+    'download' => 'Download file',
     'unzip_it' => 'Unzip it',
     'delete_it' => 'Delete it',
     'zip_file' => 'zip file',
@@ -30,7 +30,7 @@ return array (
   'pl' => 
   array (
     'method' => 'Metoda rozpakowywania',
-    'download' => 'Pobierz zip',
+    'download' => 'Pobieranie pliku',
     'unzip_it' => 'Rozpakuj to',
     'delete_it' => 'Usuń to',
     'zip_file' => 'plik zip',
@@ -57,7 +57,7 @@ return array (
   'de' => 
   array (
     'method' => 'Auspackmethode',
-    'download' => 'Zip herunterladen',
+    'download' => 'Download-Datei',
     'unzip_it' => 'Entpacken Sie es',
     'delete_it' => 'Lösche es',
     'zip_file' => 'zip-Datei',
@@ -84,7 +84,7 @@ return array (
   'es' => 
   array (
     'method' => 'Método de desembalaje',
-    'download' => 'Descargar zip',
+    'download' => 'Descargar archivo',
     'unzip_it' => 'Descomprimirlo',
     'delete_it' => 'Bórralo',
     'zip_file' => 'archivo zip',
@@ -111,7 +111,7 @@ return array (
   'ru' => 
   array (
     'method' => 'Метод распаковки',
-    'download' => 'Загрузить zip',
+    'download' => 'Скачать файл',
     'unzip_it' => 'Распаковать',
     'delete_it' => 'Удали это',
     'zip_file' => 'zip-файл',
