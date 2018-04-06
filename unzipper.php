@@ -474,7 +474,7 @@ function _h($text)
                 </div>
 
                 <div class="reminder-box mt-3 text-center">
-                    <input type="hidden" name="delfiles[]" value="unzipper.php" />
+                    <input type="hidden" name="delfiles[]" value="<?=basename(__FILE__)?>" />
                     <button type="button" class="btn-delete btn-modal btn btn-outline-warning" title="<?=_t('delete_it')?>" data-modal-body="<?=_t('msg_warning_script_delete')?>">
                         <i class="fas fa-exclamation-circle mr-1"></i>
                         <?=_t('msg_remind_to_delete')?>
