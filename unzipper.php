@@ -1,12 +1,15 @@
 <?php
 session_start();
+const LANGUAGE = '';
+const TRANSLATIONS = [];
+
 /**
  * UnZipper
  *
  * Unzip zip files. One file server side simple unzipper with UI.
  *
  * @author Robert Wierzchowski <revert@revert.pl>
- * @version 1.1.3
+ * @version 1.2.0
  */
 class UnZipper
 {
@@ -249,7 +252,7 @@ $unZipper = new UnZipper();
  * Helps manage translations.
  *
  * @author Robert Wierzchowski <revert@revert.pl>
- * @version 1.1.0
+ * @version 1.2.0
  */
 class TranslateHelper
 {
@@ -306,7 +309,7 @@ class TranslateHelper
     }
 
     private static function setLanguage()
-    {
+    {        
         self::setLanguageFromGet('lang');
         if (empty(self::$language)) {
             self::setLanguageFromUri();
@@ -316,6 +319,9 @@ class TranslateHelper
         }
         if (empty(self::$language)) {
             self::$language = self::$defaultlanguage;
+        }        
+        if (! empty(LANGUAGE)) {
+            self::$language = LANGUAGE;
         }
     }
 
@@ -335,7 +341,7 @@ class TranslateHelper
 
     private static function setTranslations()
     {
-        self::$translations = self::readTranslations(self::$translationsFileName);
+        self::$translations = (! empty(TRANSLATIONS)) ? TRANSLATIONS : self::readTranslations(self::$translationsFileName);
     }
 
     public static function getTranslation($key)
