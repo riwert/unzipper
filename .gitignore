@@ -1,2 +1,4 @@
 *.zip
 */
+GTranslator.php
+translate.php
