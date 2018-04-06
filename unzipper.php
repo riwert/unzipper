@@ -51,11 +51,11 @@ class UnZipper
 
     private function findZips()
     {
-        $files = scandir($this->dir);
+        $fileNames = scandir($this->dir);
 
-        foreach ($files as $file) {
-            if ($this->checkExtention($file)) {
-                $this->zips[] = $file;
+        foreach ($fileNames as $fileName) {
+            if ($this->checkZipFile($fileName)) {
+                $this->zips[] = $fileName;
             }
         }
     }
@@ -77,7 +77,7 @@ class UnZipper
         }
     }
 
-    private function checkExtention($fileName)
+    private function checkZipFile($fileName)
     {
         if (! file_exists($fileName)) {
             return false;
@@ -93,7 +93,7 @@ class UnZipper
 
     private function unZip($zip, $method = null)
     {
-        if (! $this->checkExtention($zip) || ! in_array($zip, scandir($this->dir))) {
+        if (! $this->checkZipFile($zip) || ! in_array($zip, scandir($this->dir))) {
             $this->alertMessage = _t('msg_not_zip_file', '<strong>' . $zip . '</strong>');
             $this->alertStatus = 'danger';
             return false;
@@ -160,7 +160,7 @@ class UnZipper
 
     private function deleteFile($fileName)
     {
-        if (! $this->checkExtention($fileName) && $fileName != basename(__FILE__)) {
+        if (! $this->checkZipFile($fileName) && $fileName != basename(__FILE__)) {
             $this->alertMessage = _t('msg_cannot_delete', '<strong>' . $fileName . '</strong>');
             $this->alertStatus = 'danger';
             return false;
