@@ -7,7 +7,7 @@
     <title><?=$unZipper->getTitle()?></title>
     <link rel="stylesheet" type="text/css" media="screen" href="https://bootswatch.com/4/lumen/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
-    <link rel="icon" type="image/x-icon" href="src/img/favicon.ico">
+    <link rel="icon" href="src/img/favicon.ico">
     <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body>
