@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// === Constances === //
+// === Constants === //
 const LANGUAGE = '';
 const TRANSLATIONS = [];
 
