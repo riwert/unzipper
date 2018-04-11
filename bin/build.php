@@ -53,6 +53,8 @@ foreach ($languages as $language) {
     $templateReplace = '?>'."\n".$templateReplace;
     $templateReplace = str_replace('<?php'."\n", '', $templateReplace);
     $templateReplace = str_replace('src/img/favicon.ico', base64Uri('src/img/favicon.ico'), $templateReplace);
+    $templateReplace = str_replace('<link rel="stylesheet" href="src/css/style.css">', '<style>'."\n".file_get_contents('src/css/style.css').'</style>', $templateReplace);
+    $templateReplace = str_replace('<script src="src/js/script.js"></script>', '<script>'."\n".file_get_contents('src/js/script.js').'</script>', $templateReplace);
 
     $content = str_replace("include 'src/html/layout.html.php';", $templateReplace, $content);
 
