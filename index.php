@@ -6,14 +6,14 @@ const LANGUAGE = '';
 const TRANSLATIONS = [];
 
 // === Helpers === //
-include 'src/helper/TranslateHelper.php';
-include 'src/helper/functions.php';
+require 'src/helper/TranslateHelper.php';
+require 'src/helper/functions.php';
 
 // === Classes === //
-include 'src/class/UnZipper.php';
+require 'src/class/UnZipper.php';
 
 // === Instances === //
 $unZipper = new UnZipper();
 
 // === Template === //
-include 'src/html/layout.html.php';
+require 'src/html/layout.html.php';
