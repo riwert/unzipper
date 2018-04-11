@@ -34,19 +34,19 @@ foreach ($languages as $language) {
     $translateHelperReplace = file_get_contents('src/helper/TranslateHelper.php');
     $translateHelperReplace = str_replace('<?php'."\n", '', $translateHelperReplace);
 
-    $content = str_replace("include 'src/helper/TranslateHelper.php';", $translateHelperReplace, $content);
+    $content = str_replace("require 'src/helper/TranslateHelper.php';", $translateHelperReplace, $content);
 
     // Helper functions
     $helperFunctionsReplace = file_get_contents('src/helper/functions.php');
     $helperFunctionsReplace = str_replace('<?php'."\n", '', $helperFunctionsReplace);
 
-    $content = str_replace("include 'src/helper/functions.php';", $helperFunctionsReplace, $content);
+    $content = str_replace("require 'src/helper/functions.php';", $helperFunctionsReplace, $content);
 
     // UnZipper class
     $unZipperReplace = file_get_contents('src/class/UnZipper.php');
     $unZipperReplace = str_replace('<?php'."\n", '', $unZipperReplace);
 
-    $content = str_replace("include 'src/class/UnZipper.php';", $unZipperReplace, $content);
+    $content = str_replace("require 'src/class/UnZipper.php';", $unZipperReplace, $content);
 
     // Template layout
     $templateReplace = file_get_contents('src/html/layout.html.php');
@@ -56,7 +56,7 @@ foreach ($languages as $language) {
     $templateReplace = str_replace('<link rel="stylesheet" href="src/css/style.css">', '<style>'."\n".file_get_contents('src/css/style.css').'</style>', $templateReplace);
     $templateReplace = str_replace('<script src="src/js/script.js"></script>', '<script>'."\n".file_get_contents('src/js/script.js').'</script>', $templateReplace);
 
-    $content = str_replace("include 'src/html/layout.html.php';", $templateReplace, $content);
+    $content = str_replace("require 'src/html/layout.html.php';", $templateReplace, $content);
 
     // Save file
     file_put_contents($unzipperLocalized, $content);
