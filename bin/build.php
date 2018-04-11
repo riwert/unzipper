@@ -17,7 +17,7 @@ function base64Uri($path) {
 // Loop through all languages
 foreach ($languages as $language) {
     // Localized file name
-    $unzipperLocalized = 'unzipper.' . $language . '.php';
+    $unzipperLocalized = 'dist/unzipper.' . $language . '.php';
 
     // Initial content
     $content = $unzipper;
