@@ -22,12 +22,12 @@ Upload `unzipper.en.php` file to your directory with zip file(s) on the server a
 ```
 http://yourdomain.com/path/to/unzipper.en.php
 ```
-### Language change
-Available: en, pl, de, es, ru.
+### Languages
+Available **lang**: en, pl, de, es, ru.
 ```
-http://yourdomain.com/path/to/unzipper.pl.php
+http://yourdomain.com/path/to/unzipper.lang.php
 ```
-
+### Remember
 After you are done remember to delete `unzipper.en.php` script and all unnecessary zip files.
 
 ## Download
