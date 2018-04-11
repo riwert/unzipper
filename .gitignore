@@ -1,4 +1,6 @@
 *.zip
 */
-GTranslator.php
-translate.php
+!src
+!src/*
+!bin
+!bin/*

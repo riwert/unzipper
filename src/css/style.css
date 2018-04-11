@@ -1,0 +1,15 @@
+a:hover {
+    text-decoration: none;
+}
+label {
+    margin: 0;
+}
+.notification {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+.output {
+    max-height: 10rem;
+    overflow: auto;
+}
