@@ -367,7 +367,7 @@ class UnZipper
 
     private function setToken()
     {
-        $_SESSION['token'] = bin2hex(random_bytes(32));
+        $_SESSION['token'] = md5(uniqid(rand(), true)); // PHP 7 only: bin2hex(random_bytes(32));
         $this->token = $_SESSION['token'];
     }
 
