@@ -25,36 +25,36 @@ foreach ($languages as $language) {
     // Translation constants
     $translation = var_export($translations[$language], true);
     $languageReplace = 'const LANGUAGE = ' .  "'" . $language . "';";
-    $translationReplace =  'const TRANSLATIONS = [' . "\n'" . $language . "' => " . $translation . '];';
+    $translationReplace =  'const TRANSLATIONS = [' . PHP_EOL . "'" . $language . "' => " . $translation . '];';
 
     $content = str_replace("const LANGUAGE = '';", $languageReplace, $content);
     $content = str_replace("const TRANSLATIONS = [];", $translationReplace, $content);
 
     // Translate helper
     $translateHelperReplace = file_get_contents('src/helper/TranslateHelper.php');
-    $translateHelperReplace = str_replace('<?php'."\n", '', $translateHelperReplace);
+    $translateHelperReplace = str_replace('<?php'.PHP_EOL, '', $translateHelperReplace);
 
     $content = str_replace("require 'src/helper/TranslateHelper.php';", $translateHelperReplace, $content);
 
     // Helper functions
     $helperFunctionsReplace = file_get_contents('src/helper/functions.php');
-    $helperFunctionsReplace = str_replace('<?php'."\n", '', $helperFunctionsReplace);
+    $helperFunctionsReplace = str_replace('<?php'.PHP_EOL, '', $helperFunctionsReplace);
 
     $content = str_replace("require 'src/helper/functions.php';", $helperFunctionsReplace, $content);
 
     // UnZipper class
     $unZipperReplace = file_get_contents('src/class/UnZipper.php');
-    $unZipperReplace = str_replace('<?php'."\n", '', $unZipperReplace);
+    $unZipperReplace = str_replace('<?php'.PHP_EOL, '', $unZipperReplace);
 
     $content = str_replace("require 'src/class/UnZipper.php';", $unZipperReplace, $content);
 
     // Template layout
     $templateReplace = file_get_contents('src/html/layout.html.php');
-    $templateReplace = '?>'."\n".$templateReplace;
-    $templateReplace = str_replace('<?php'."\n", '', $templateReplace);
+    $templateReplace = '?>'.PHP_EOL.$templateReplace;
+    $templateReplace = str_replace('<?php'.PHP_EOL, '', $templateReplace);
     $templateReplace = str_replace('src/img/favicon.ico', base64Uri('src/img/favicon.ico'), $templateReplace);
-    $templateReplace = str_replace('<link rel="stylesheet" href="src/css/style.css">', '<style>'."\n".file_get_contents('src/css/style.css').'</style>', $templateReplace);
-    $templateReplace = str_replace('<script src="src/js/script.js"></script>', '<script>'."\n".file_get_contents('src/js/script.js').'</script>', $templateReplace);
+    $templateReplace = str_replace('<link rel="stylesheet" href="src/css/style.css">', '<style>'.PHP_EOL.file_get_contents('src/css/style.css').'</style>', $templateReplace);
+    $templateReplace = str_replace('<script src="src/js/script.js"></script>', '<script>'.PHP_EOL.file_get_contents('src/js/script.js').'</script>', $templateReplace);
 
     $content = str_replace("require 'src/html/layout.html.php';", $templateReplace, $content);
 
