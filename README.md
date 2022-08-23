@@ -1,5 +1,5 @@
 # UnZipper
-Unzip zip files. One file server side simple unzipper with intuitive UI.
+One file, server side, simple PHP unzipper with intuitive Bootswatch UI witch let you easily unzip zip files on your hosting.
 
 ## Screenshot
 [![UnZipper](screenshot.png)](screenshot.png)
